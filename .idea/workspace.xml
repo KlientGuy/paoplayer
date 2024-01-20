@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="music_widget" targetName="music_widget" />
+      <config projectName="music_widget" targetName="music_widget_base" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7a286d14-8cb1-4ff2-80dc-80d65e570df0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/music_widget.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/editor.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/music_widget_base.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/MusicStateEnum.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/SongController.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_base/SongController.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/editor.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/music_widget.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/lib/OP_MASKS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/music_widget_cli/main.cpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FormatOnSaveOptions">
+    <option name="myAllFileTypesSelected" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file:///usr/include/bits/getopt_core.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file:///usr/include/bits/getopt_ext.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file:///usr/include/c++/13.2.1/bits/char_traits.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file:///usr/include/errno.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file:///usr/include/fcntl.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file:///usr/include/pulse/def.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file:///usr/include/sys/mman.h" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2023" />
+    <option name="minorVersion" value="3" />
+    <option name="productBranch" value="Nova" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2as4nNSfMSZSPhrxS1ueZl3i41m" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "CMake Application.music_widget.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.RadMigrateCodeStyle": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget/music_widget_cli/CMakeLists.txt",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.maddyhome.idea.vim.ui.VimEmulationConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="CMake Application.music_widget">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-vc -U https://music.youtube.com/playlist?list=RDTMAK5uy_nilrsVWxrKskY0ZUpVZ3zpB0u4LwWTVJ4" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="music_widget_base" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget_base" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.music_widget" />
+      <item itemvalue="CMake Application.music_widget_base" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7a286d14-8cb1-4ff2-80dc-80d65e570df0" name="Changes" comment="" />
+      <created>1705094119542</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1705094119542</updated>
+      <workItem from="1705094122888" duration="9382000" />
+      <workItem from="1705243249690" duration="20945000" />
+      <workItem from="1705345071243" duration="1242000" />
+      <workItem from="1705346325705" duration="696000" />
+      <workItem from="1705347033964" duration="8882000" />
+      <workItem from="1705430918606" duration="4881000" />
+      <workItem from="1705599695135" duration="10263000" />
+      <workItem from="1705692212252" duration="10078000" />
+      <workItem from="1705762169768" duration="15708000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
