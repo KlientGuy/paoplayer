@@ -4,7 +4,6 @@
 #include <signal.h>
 
 #include "SongController.h"
-#include "PaConnector.h"
 #include "lib/OP_MASKS.h"
 
 #define MILISECOND 1000
@@ -19,7 +18,7 @@ bool online = false;
 void processArgv(const int argc, char *argv[])
 {
     int optCode;
-    const char *shortOptions = ":PptqvD ?U: :c";
+    const char *shortOptions = ":PptqvD ?U: :cn";
     const option longOptions[] = {
         {"play", no_argument, nullptr, 'P'},
         {"pause", no_argument, nullptr, 'p'},
@@ -28,6 +27,7 @@ void processArgv(const int argc, char *argv[])
         {"debug", no_argument, nullptr, 'd'},
         {"from-url", no_argument, nullptr, 'U'},
         {"clear-existing", no_argument, nullptr, 'c'},
+        {"next", no_argument, nullptr, 'n'},
         {nullptr, no_argument, nullptr, 0} //Segfaults on unrecognized option
     };
 
@@ -38,6 +38,8 @@ void processArgv(const int argc, char *argv[])
             case 'P': ops_mask |= OPS_PLAY;
                 break;
             case 'p': ops_mask |= OPS_PAUSE;
+                break;
+            case 'n': ops_mask |= OPS_NEXT;
                 break;
             case 'U': ops_mask |= OPS_FROM_URL;
                 song_controller.setPlaylistUrl(optarg);
@@ -84,6 +86,10 @@ void processArgv(const int argc, char *argv[])
         pa_connector.setStateAndExit(MS_PAUSED);
     }
 
+    if((ops_mask & OPS_NEXT) == OPS_NEXT) {
+        pa_connector.setStateAndExit(MS_NEXT);
+    }
+
     if((ops_mask & OPS_CLEAR_EXISTING) == OPS_CLEAR_EXISTING)
     {
         song_controller.removeExistingSongs();
@@ -92,7 +98,7 @@ void processArgv(const int argc, char *argv[])
 
     if((ops_mask & OPS_FROM_URL) == OPS_FROM_URL)
     {
-        // song_controller.fetchSongsFromPlaylist(4, 6);
+//         song_controller.fetchSongsFromPlaylist(4, 6);
         online = true;
     }
 }

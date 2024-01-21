@@ -12,6 +12,8 @@
 #include <pulse/context.h>
 #include <pulse/stream.h>
 #include <pulse/error.h>
+#include <pulse/volume.h>
+#include <pulse/introspect.h>
 
 #include "MusicStateEnum.h"
 
@@ -24,6 +26,11 @@ namespace pulse_audio
     void context_set_state_callback(pa_context *context, void *userdata);
     void stream_state_callback(pa_stream *stream, void *userdata);
     void stream_write_callback(pa_stream *stream, size_t bytesCount, void *userdata);
+    
+    struct pc_sharred_data {
+        uint8_t music_state;
+        pa_cvolume volume;
+    };
 
     class PaConnector {
     public:
@@ -98,7 +105,7 @@ namespace pulse_audio
          */
         void handleStateChange(pa_stream *stream);
 
-        int *getState() const;
+        uint8_t *getState() const;
         void setState(int state) const;
         void setStateAndExit(int state);
 
@@ -108,6 +115,10 @@ namespace pulse_audio
         void removeSharedMemory() const;
 
         pa_stream *getSelectedStream();
+        
+        void setVolume(pa_volume_t volume);
+        void setVolumeObject(pa_cvolume *vol_object);
+        pa_cvolume* getVolumeObject() const;
 
         static PaConnector *getInstance();
         void cleanup() const;
@@ -120,11 +131,14 @@ namespace pulse_audio
         size_t m_current_song_byte_count = 0;
         std::function<void()> pm_end_of_song_callback;
 
+        pa_cvolume* m_volume = nullptr;
+
         int m_shm_fd{};
         /**
          * \brief Default state for stream is MS_DEFAULT defined in MusicStateEnum.h
          */
         uint8_t *pm_state{};
+        pc_sharred_data *pm_shared{};
 
         pa_mainloop *pm_main_loop{};
         pa_mainloop_api *pm_main_loop_api{};

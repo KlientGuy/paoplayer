@@ -1,6 +1,5 @@
 #include "SongController.h"
 
-
 namespace songs
 {
     SongController::SongController(pulse_audio::PaConnector *pa_connector)

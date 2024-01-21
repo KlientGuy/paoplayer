@@ -22,34 +22,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a286d14-8cb1-4ff2-80dc-80d65e570df0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/music_widget.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/editor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/.idea/music_widget_base.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/MusicStateEnum.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/SongController.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_base/SongController.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/editor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/.idea/music_widget.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/lib/OP_MASKS.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/music_widget_cli/main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/MusicStateEnum.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/MusicStateEnum.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_cli/lib/OP_MASKS.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_cli/lib/OP_MASKS.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_cli/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_cli/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,26 +80,24 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cf.advertisement.text.overridden": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget/music_widget_cli/CMakeLists.txt",
+    "last_opened_file_path": "/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.maddyhome.idea.vim.ui.VimEmulationConfigurable",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C/C++",
+    "structure.view.defaults.are.configured": "true",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager" selected="CMake Application.music_widget">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-vc -U https://music.youtube.com/playlist?list=RDTMAK5uy_nilrsVWxrKskY0ZUpVZ3zpB0u4LwWTVJ4" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
+    <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-vD -U https://music.youtube.com/playlist?list=RDTMAK5uy_nilrsVWxrKskY0ZUpVZ3zpB0u4LwWTVJ4" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -148,7 +128,15 @@
       <workItem from="1705430918606" duration="4881000" />
       <workItem from="1705599695135" duration="10263000" />
       <workItem from="1705692212252" duration="10078000" />
-      <workItem from="1705762169768" duration="15708000" />
+      <workItem from="1705762169768" duration="16160000" />
+      <workItem from="1705781722724" duration="1649000" />
+      <workItem from="1705783380674" duration="42000" />
+      <workItem from="1705783433307" duration="352000" />
+      <workItem from="1705784009689" duration="44000" />
+      <workItem from="1705784062216" duration="50000" />
+      <workItem from="1705784191759" duration="19000" />
+      <workItem from="1705784357972" duration="6259000" />
+      <workItem from="1705830969537" duration="8324000" />
     </task>
     <servers />
   </component>

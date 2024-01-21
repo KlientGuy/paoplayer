@@ -37,7 +37,7 @@ namespace songs
         std::string m_current_url;
 
         std::string m_current_song;
-        uint8_t m_song_index = 4;
+        uint8_t m_song_index = 3;
 
         bool checkSongDir();
         std::string makeSongPattern() const;

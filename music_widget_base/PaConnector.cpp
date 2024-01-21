@@ -71,7 +71,21 @@ namespace pulse_audio
         }
         return false;
     }
+    
+    void getDefaultVolume(pa_context* context, const pa_sink_input_info* info, int n, void* connector)
+    {
+        PaConnector* pa_connector = (PaConnector*) connector;
+        
+        if(info == nullptr)
+            return;
+        
+        pa_connector->setVolumeObject((pa_cvolume*)&info->volume);
+        pa_context_set_sink_input_volume(context, info->index, pa_connector->getVolumeObject(), nullptr, nullptr);
 
+        std::cout << "INIT VOL: " << pa_sw_volume_to_linear(*info->volume.values) << std::endl;
+        std::cout << "NEW VOL: " << pa_sw_volume_to_linear(*pa_connector->getVolumeObject()->values) << std::endl;
+    }
+    
     void PaConnector::connectStream()
     {
         this->pm_sample_spec = {
@@ -82,10 +96,14 @@ namespace pulse_audio
 
         pa_stream *stream = pa_stream_new(this->pm_context, "New Stream", &this->pm_sample_spec, nullptr);
 
-        pa_stream_set_state_callback(stream, stream_state_callback, nullptr);
+        pa_stream_set_state_callback(stream, stream_state_callback, pm_context);
         pa_stream_connect_playback(stream, nullptr, nullptr, (pa_stream_flags) 0, nullptr, nullptr);
+
+        pa_context_get_sink_input_info(pm_context, pa_stream_get_index(stream), getDefaultVolume, this);
+        
         pm_selected_stream = stream;
     }
+    
 
     bool PaConnector::createSharedMemory()
     {
@@ -100,7 +118,7 @@ namespace pulse_audio
             return false;
         }
 
-        if(ftruncate(m_shm_fd, sizeof(uint8_t)) == -1)
+        if(ftruncate(m_shm_fd, sizeof(pc_sharred_data)) == -1)
         {
             if(m_debug)
                 std::cout << "PaConnector::createSharedMemory | ftruncate() failed " << strerror(errno) << std::endl;
@@ -130,9 +148,9 @@ namespace pulse_audio
 
     bool PaConnector::mapSharedMemory()
     {
-        pm_state = (uint8_t *) mmap(NULL, sizeof(uint8_t), PROT_READ | PROT_WRITE, MAP_SHARED, m_shm_fd, 0);
+        pm_shared = (pc_sharred_data*) mmap(nullptr, sizeof(pc_sharred_data), PROT_READ | PROT_WRITE, MAP_SHARED, m_shm_fd, 0);
 
-        if(pm_state == MAP_FAILED)
+        if(pm_shared == MAP_FAILED)
         {
             if(m_debug)
                 std::cout << "PaConnector::createSharedMemory | mmap() failed " << strerror(errno) << std::endl;
@@ -154,7 +172,7 @@ namespace pulse_audio
 
     void PaConnector::handleStateChange(pa_stream *stream)
     {
-        switch(*pm_state)
+        switch(pm_shared->music_state)
         {
             case MS_PAUSED:
                 std::cout << "Paused" << std::endl;
@@ -163,6 +181,9 @@ namespace pulse_audio
             case MS_PLAYING:
                 std::cout << "Resumed" << std::endl;
                 play(stream);
+                break;
+            case MS_NEXT:
+                executeEndOfSongCallback();
                 break;
             case MS_DEFAULT:
                 return;
@@ -190,18 +211,18 @@ namespace pulse_audio
         pa_stream_cork(stream, 0, nullptr, nullptr);
     }
 
-    int *PaConnector::getState() const { return (int *) this->pm_state; }
+    uint8_t *PaConnector::getState() const { return &this->pm_shared->music_state; }
 
     void PaConnector::setState(const int state) const
     {
-        *pm_state = state;
+        pm_shared->music_state = state;
     }
 
     void PaConnector::setStateAndExit(int state)
     {
         attachSharedMemory();
-        *pm_state = state;
-        munmap(pm_state, sizeof(uint8_t));
+        pm_shared->music_state = state;
+        munmap(pm_shared, sizeof(uint8_t));
         exit(0);
     }
 
@@ -221,7 +242,20 @@ namespace pulse_audio
         pm_end_of_song_callback = callback;
     }
 
+    void PaConnector::setVolume(pa_volume_t volume)
+    {
+        pa_cvolume_set(m_volume, 2, pa_sw_volume_from_linear(volume));
+    }
 
+    void PaConnector::setVolumeObject(pa_cvolume *vol_object)
+    {
+        m_volume = vol_object;
+    }
+    
+    pa_cvolume* PaConnector::getVolumeObject() const
+    {
+        return m_volume;
+    }
 
     void context_set_state_callback(pa_context *context, void *userdata)
     {
@@ -290,6 +324,10 @@ namespace pulse_audio
         paConnector->handleStateChange(stream);
 
         FILE *currentSong = paConnector->getCurrentSong();
+        
+        if(currentSong == nullptr)
+            return;
+        
         size_t bytes = fread(buffer, 1, sizeof(buffer), currentSong);
 
         paConnector->addCurrentSongBytes(bytes);
@@ -305,64 +343,67 @@ namespace pulse_audio
             paConnector->resetCurrentSongBytes();
             // paConnector->cleanup();
             paConnector->executeEndOfSongCallback();
-            pa_stream_drain(stream, nullptr, nullptr);
+//            pa_stream_drain(stream, nullptr, nullptr);
             return;
         }
 
         const int written = pa_stream_write(stream, buffer, bytesCount, nullptr, 0, PA_SEEK_RELATIVE);
 
-        if(written < 0)
-            exit(0);
+//        if(written < 0)
+//            exit(0);
 
         pa_stream_drain(stream, nullptr, nullptr);
     }
 
-    void stream_state_callback(pa_stream *stream, void *userdata)
+    void stream_state_callback(pa_stream *stream, void *context)
     {
         const pa_stream_state_t state = pa_stream_get_state(stream);
         const PaConnector *paConnector = PaConnector::getInstance();
 
-        if(paConnector->isDebug())
+        if(paConnector->isDebug()) goto handle_debug;
+        else goto handle_no_debug;
+
+    handle_debug:
+        switch(state)
         {
-            switch(state)
-            {
-                case PA_STREAM_UNCONNECTED:
-                    printf("PA_STREAM_UNCONNECTED\n");
-                    break;
-                case PA_STREAM_CREATING:
-                    printf("PA_STREAM_CREATING\n");
-                    break;
-                case PA_STREAM_READY:
-                    printf("PA_STREAM_READY\n");
-                    pa_stream_set_write_callback(stream, stream_write_callback, nullptr);
-                    break;
-                case PA_STREAM_FAILED:
-                    printf("PA_STREAM_FAILED\n");
-                    paConnector->removeSharedMemory();
-                    break;
-                case PA_STREAM_TERMINATED:
-                    printf("PA_STREAM_TERMINATED\n");
-                    break;
-                default:
-                    std::cout << state << std::endl;
-                    break;
-            }
+            case PA_STREAM_UNCONNECTED:
+                printf("PA_STREAM_UNCONNECTED\n");
+                break;
+            case PA_STREAM_CREATING:
+                printf("PA_STREAM_CREATING\n");
+                break;
+            case PA_STREAM_READY:
+                printf("PA_STREAM_READY\n");
+                pa_context_get_sink_input_info((pa_context*)context, pa_stream_get_index(stream), getDefaultVolume, (void*)paConnector);
+                std::cout << pa_strerror(pa_context_errno((pa_context*)context)) << std::endl;
+                pa_stream_set_write_callback(stream, stream_write_callback, nullptr);
+                break;
+            case PA_STREAM_FAILED:
+                printf("PA_STREAM_FAILED\n");
+                paConnector->removeSharedMemory();
+                break;
+            case PA_STREAM_TERMINATED:
+                printf("PA_STREAM_TERMINATED\n");
+                break;
+            default:
+                std::cout << state << std::endl;
+                break;
         }
-        else
+            
+    handle_no_debug:
+        switch(state)
         {
-            switch(state)
-            {
-                case PA_STREAM_READY:
-                    pa_stream_set_write_callback(stream, stream_write_callback, nullptr);
-                    break;
-                case PA_STREAM_FAILED:
-                    std::cout << "Pulse Audio stream failed" << std::endl;
-                    paConnector->removeSharedMemory();
-                    break;
-                default:
-                    //Do nothing
-                    break;
-            }
+            case PA_STREAM_READY:
+                pa_stream_set_write_callback(stream, stream_write_callback, nullptr);
+                pa_context_get_sink_input_info((pa_context*) context, pa_stream_get_index(stream), getDefaultVolume, (void*) paConnector);
+                break;
+            case PA_STREAM_FAILED:
+                std::cout << "Pulse Audio stream failed" << std::endl;
+                paConnector->removeSharedMemory();
+                break;
+            default:
+                //Do nothing
+                break;
         }
     }
 }
