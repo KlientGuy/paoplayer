@@ -17,6 +17,7 @@ namespace pulse_audio
     {
         this->pm_main_loop = pa_mainloop_new();
         this->pm_main_loop_api = pa_mainloop_get_api(this->pm_main_loop);
+        this->pm_shared->host_pid = getpid();
     }
 
     void PaConnector::freeMainloop() const
@@ -78,12 +79,15 @@ namespace pulse_audio
         
         if(info == nullptr)
             return;
-        
-        pa_connector->setVolumeObject((pa_cvolume*)&info->volume);
+
+        pa_connector->setVolumeObject(&info->volume);
         pa_context_set_sink_input_volume(context, info->index, pa_connector->getVolumeObject(), nullptr, nullptr);
 
-        std::cout << "INIT VOL: " << pa_sw_volume_to_linear(*info->volume.values) << std::endl;
-        std::cout << "NEW VOL: " << pa_sw_volume_to_linear(*pa_connector->getVolumeObject()->values) << std::endl;
+        if(pa_connector->isDebug())
+        {
+            std::cout << "INIT VOL: " << pa_sw_volume_to_linear(*info->volume.values) << std::endl;
+            std::cout << "NEW VOL: " << pa_sw_volume_to_linear(*pa_connector->getVolumeObject()->values) << std::endl;
+        }
     }
     
     void PaConnector::connectStream()
@@ -118,7 +122,7 @@ namespace pulse_audio
             return false;
         }
 
-        if(ftruncate(m_shm_fd, sizeof(pc_sharred_data)) == -1)
+        if(ftruncate(m_shm_fd, sizeof(pc_shared_data)) == -1)
         {
             if(m_debug)
                 std::cout << "PaConnector::createSharedMemory | ftruncate() failed " << strerror(errno) << std::endl;
@@ -148,7 +152,7 @@ namespace pulse_audio
 
     bool PaConnector::mapSharedMemory()
     {
-        pm_shared = (pc_sharred_data*) mmap(nullptr, sizeof(pc_sharred_data), PROT_READ | PROT_WRITE, MAP_SHARED, m_shm_fd, 0);
+        pm_shared = (struct pc_shared_data*) mmap(nullptr, sizeof(pc_shared_data), PROT_READ | PROT_WRITE, MAP_SHARED, m_shm_fd, 0);
 
         if(pm_shared == MAP_FAILED)
         {
@@ -166,7 +170,7 @@ namespace pulse_audio
 
     void PaConnector::removeSharedMemory() const
     {
-        munmap(pm_state, sizeof(uint8_t));
+        munmap(pm_shared, sizeof(pc_shared_data));
         shm_unlink(SHM_NAME);
     }
 
@@ -184,6 +188,9 @@ namespace pulse_audio
                 break;
             case MS_NEXT:
                 executeEndOfSongCallback();
+                break;
+            case MS_VOL_CHNG:
+                handleVolumeChange();
                 break;
             case MS_DEFAULT:
                 return;
@@ -222,7 +229,7 @@ namespace pulse_audio
     {
         attachSharedMemory();
         pm_shared->music_state = state;
-        munmap(pm_shared, sizeof(uint8_t));
+        munmap(pm_shared, sizeof(pc_shared_data));
         exit(0);
     }
 
@@ -242,19 +249,70 @@ namespace pulse_audio
         pm_end_of_song_callback = callback;
     }
 
-    void PaConnector::setVolume(pa_volume_t volume)
+    void PaConnector::setVolume(double volume)
     {
-        pa_cvolume_set(m_volume, 2, pa_sw_volume_from_linear(volume));
+        pa_cvolume_set(&pm_shared->volume, 2, pa_sw_volume_from_linear(volume));
+
+        if(pm_shared->host_pid == getpid()) {
+            pa_context_set_sink_input_volume(pm_context, pa_stream_get_index(pm_selected_stream), &pm_shared->volume, nullptr, nullptr);
+        }
     }
 
-    void PaConnector::setVolumeObject(pa_cvolume *vol_object)
+    void PaConnector::setVolumeObject(const pa_cvolume *vol_object)
     {
-        m_volume = vol_object;
+        pm_shared->volume = *vol_object;
     }
     
-    pa_cvolume* PaConnector::getVolumeObject() const
+    pa_cvolume* PaConnector::getVolumeObject() 
     {
-        return m_volume;
+        return &pm_shared->volume;
+    }
+
+    void PaConnector::changeVolume(double amount)
+    {
+        double curr_vol = pa_sw_volume_to_linear(*pm_shared->volume.values);
+        double new_volume = curr_vol + amount / 100;
+
+        if(isDebug())
+        {
+            std::string action = amount < 0 ? "DECREASE" : "INCREASE";
+            std::cout << action << std::endl;
+            std::cout << "Current Volume: " << curr_vol << std::endl;
+            std::cout << "ACCUM: " << curr_vol + amount << std::endl;
+        }
+
+        if((amount < 0 && new_volume > 0) || (amount > 0 && new_volume < 1)) {
+            setVolume(new_volume);
+        }
+        else {
+            setVolume(0);
+        }       
+    }
+
+    void PaConnector::changeVolumeShared(double amount)
+    {
+        if(attachSharedMemory())
+        {
+            changeVolume(amount);
+            setState(MS_VOL_CHNG);
+            munmap(pm_shared, sizeof(pc_shared_data));
+        }
+    }
+
+    void PaConnector::handleVolumeChange()
+    {
+        double curr_vol = pa_sw_volume_to_linear(*pm_shared->volume.values);
+        setVolume(curr_vol);
+    }
+
+    void subCb(pa_context* context, pa_subscription_event_type_t event, uint32_t index, void* userdata)
+    {
+        //On volume change;
+        if((event & PA_SUBSCRIPTION_EVENT_FACILITY_MASK) == PA_SUBSCRIPTION_EVENT_SINK_INPUT && (event & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_CHANGE)
+        {
+            PaConnector* pa_connector = PaConnector::getInstance();
+            pa_context_get_sink_input_info(context, pa_stream_get_index(pa_connector->getSelectedStream()), getDefaultVolume, pa_connector);
+        }
     }
 
     void context_set_state_callback(pa_context *context, void *userdata)
@@ -280,8 +338,7 @@ namespace pulse_audio
                     break;
                 case PA_CONTEXT_READY:
                     printf("PA_CONTEXT_READY\n");
-                    paConnector->connectStream();
-                    break;
+                    goto context_ready;
                 case PA_CONTEXT_FAILED:
                     printf("PA_CONTEXT_FAILED\n");
                     std::cout << pa_strerror(pa_context_errno(context)) << std::endl;
@@ -299,20 +356,23 @@ namespace pulse_audio
         {
             switch(state)
             {
-                case PA_CONTEXT_READY:
-                    paConnector->connectStream();
-                    break;
+                case PA_CONTEXT_READY: goto context_ready;
                 case PA_CONTEXT_FAILED:
                     std::cout << "Context creation failed with code " << pa_strerror(pa_context_errno(context)) <<
                             std::endl;
                     paConnector->removeSharedMemory();
                     exit(-1);
-                    break;
                 default:
                     //Do nothing
-                    break;
+                    return;
             }
         }
+        
+    context_ready:
+        paConnector->connectStream();
+        pa_context_subscribe(context,  PA_SUBSCRIPTION_MASK_SINK_INPUT, nullptr, nullptr);
+        pa_context_set_subscribe_callback(context, subCb, nullptr);
+        
     }
 
 
@@ -343,7 +403,6 @@ namespace pulse_audio
             paConnector->resetCurrentSongBytes();
             // paConnector->cleanup();
             paConnector->executeEndOfSongCallback();
-//            pa_stream_drain(stream, nullptr, nullptr);
             return;
         }
 

@@ -14,6 +14,7 @@
 #include <pulse/error.h>
 #include <pulse/volume.h>
 #include <pulse/introspect.h>
+#include <pulse/subscribe.h>
 
 #include "MusicStateEnum.h"
 
@@ -27,7 +28,8 @@ namespace pulse_audio
     void stream_state_callback(pa_stream *stream, void *userdata);
     void stream_write_callback(pa_stream *stream, size_t bytesCount, void *userdata);
     
-    struct pc_sharred_data {
+    struct pc_shared_data {
+        pid_t host_pid;
         uint8_t music_state;
         pa_cvolume volume;
     };
@@ -116,9 +118,14 @@ namespace pulse_audio
 
         pa_stream *getSelectedStream();
         
-        void setVolume(pa_volume_t volume);
-        void setVolumeObject(pa_cvolume *vol_object);
-        pa_cvolume* getVolumeObject() const;
+        void setVolume(double volume);
+        void setVolumeObject(const pa_cvolume *vol_object);
+        pa_cvolume* getVolumeObject();
+        
+        void changeVolume(double amount);
+        
+        void changeVolumeShared(double amount);
+        void handleVolumeChange();
 
         static PaConnector *getInstance();
         void cleanup() const;
@@ -138,7 +145,7 @@ namespace pulse_audio
          * \brief Default state for stream is MS_DEFAULT defined in MusicStateEnum.h
          */
         uint8_t *pm_state{};
-        pc_sharred_data *pm_shared{};
+        pc_shared_data *pm_shared{};
 
         pa_mainloop *pm_main_loop{};
         pa_mainloop_api *pm_main_loop_api{};

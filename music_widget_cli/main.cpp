@@ -2,6 +2,7 @@
 #include <iostream>
 #include <getopt.h>
 #include <signal.h>
+#include <cmath>
 
 #include "SongController.h"
 #include "lib/OP_MASKS.h"
@@ -18,7 +19,7 @@ bool online = false;
 void processArgv(const int argc, char *argv[])
 {
     int optCode;
-    const char *shortOptions = ":PptqvD ?U: :cn";
+    const char *shortOptions = ":PptqvD ?U: :cn ?u: ?d:";
     const option longOptions[] = {
         {"play", no_argument, nullptr, 'P'},
         {"pause", no_argument, nullptr, 'p'},
@@ -28,8 +29,12 @@ void processArgv(const int argc, char *argv[])
         {"from-url", no_argument, nullptr, 'U'},
         {"clear-existing", no_argument, nullptr, 'c'},
         {"next", no_argument, nullptr, 'n'},
+        {"volume-up", no_argument, nullptr, 'u'},
+        {"volume-down", no_argument, nullptr, 'd'},
         {nullptr, no_argument, nullptr, 0} //Segfaults on unrecognized option
     };
+    
+    double vol_amount = 0;
 
     while((optCode = getopt_long(argc, argv, shortOptions, longOptions, nullptr)) != -1)
     {
@@ -40,6 +45,18 @@ void processArgv(const int argc, char *argv[])
             case 'p': ops_mask |= OPS_PAUSE;
                 break;
             case 'n': ops_mask |= OPS_NEXT;
+                break;
+            case 'u':
+                ops_mask |= OPS_VOL_UP;
+                vol_amount = std::stod(optarg);
+                if(vol_amount <= 0)
+                    std::cout << "Invalid argument passed for -u; Expecting positive floating point number";
+                break;
+            case 'd':
+                ops_mask |= OPS_VOL_DOWN;
+                vol_amount = std::stod(optarg);
+                if(vol_amount <= 0)
+                    std::cout << "Invalid argument passed for -d; Expecting positive floating point number";
                 break;
             case 'U': ops_mask |= OPS_FROM_URL;
                 song_controller.setPlaylistUrl(optarg);
@@ -76,6 +93,21 @@ void processArgv(const int argc, char *argv[])
 
     if((ops_mask & OPS_QUIET) == OPS_QUIET && ((ops_mask & OPS_VERBOSE) != OPS_VERBOSE)) {
         song_controller.enableQuiet();
+    }
+
+    if((ops_mask & OPS_VOL_UP) == OPS_VOL_UP && (ops_mask & OPS_VOL_DOWN) == OPS_VOL_DOWN)
+    {
+        std::cout << "Music Widget: -d and -u are mutually exclusive" << std::endl;
+    }
+    
+    if((ops_mask & OPS_VOL_UP) == OPS_VOL_UP) {
+        pa_connector.changeVolumeShared(vol_amount);
+        exit(0);
+    }
+    
+    if((ops_mask & OPS_VOL_DOWN) == OPS_VOL_DOWN) {
+        pa_connector.changeVolumeShared(-vol_amount);
+        exit(0);
     }
 
     if((ops_mask & OPS_PLAY) == OPS_PLAY) {

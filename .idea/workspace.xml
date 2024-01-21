@@ -22,14 +22,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a286d14-8cb1-4ff2-80dc-80d65e570df0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music_widget_base/MusicStateEnum.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/MusicStateEnum.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music_widget_cli/lib/OP_MASKS.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_cli/lib/OP_MASKS.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music_widget_cli/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_cli/main.cpp" afterDir="false" />
     </list>
@@ -74,7 +70,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "CMake Application.music_widget.executor": "Debug",
+    "CMake Application.music_widget.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -97,7 +93,7 @@
   }
 }]]></component>
   <component name="RunManager" selected="CMake Application.music_widget">
-    <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-vD -U https://music.youtube.com/playlist?list=RDTMAK5uy_nilrsVWxrKskY0ZUpVZ3zpB0u4LwWTVJ4" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
+    <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-Dd 1" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -136,7 +132,7 @@
       <workItem from="1705784062216" duration="50000" />
       <workItem from="1705784191759" duration="19000" />
       <workItem from="1705784357972" duration="6259000" />
-      <workItem from="1705830969537" duration="8324000" />
+      <workItem from="1705830969537" duration="23487000" />
     </task>
     <servers />
   </component>
