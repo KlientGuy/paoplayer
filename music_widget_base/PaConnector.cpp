@@ -59,6 +59,9 @@ namespace pulse_audio
         if(FILE *file = fopen(fileName, "r"))
         {
             this->pm_current_song = file;
+            
+            //Gets rid of a that "pop" sound that plays when pushing a header data to pulse audio
+            fseek(file, WAV_HEADER_SIZE * 2, SEEK_SET);
             return true;
         }
 
@@ -71,6 +74,11 @@ namespace pulse_audio
             default: return false;
         }
         return false;
+    }
+
+    void PaConnector::closeCurrentSongFd()
+    {
+        fclose(pm_current_song);
     }
     
     void getDefaultVolume(pa_context* context, const pa_sink_input_info* info, int n, void* connector)
@@ -401,6 +409,7 @@ namespace pulse_audio
         if(feof(currentSong) != 0)
         {
             paConnector->resetCurrentSongBytes();
+            paConnector->closeCurrentSongFd();
             // paConnector->cleanup();
             paConnector->executeEndOfSongCallback();
             return;

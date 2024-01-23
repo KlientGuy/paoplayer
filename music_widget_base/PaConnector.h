@@ -21,6 +21,8 @@
 #define SHM_PAGE_SIZE 4096
 #define SHM_NAME "/music_widget"
 
+#define WAV_HEADER_SIZE 44
+
 
 namespace pulse_audio
 {
@@ -83,6 +85,7 @@ namespace pulse_audio
          * \return true if operation succeded, false otherwise
          */
         bool openSongToRead(const char *fileName);
+        void closeCurrentSongFd();
 
         void addCurrentSongBytes(size_t bytes);
         void resetCurrentSongBytes();

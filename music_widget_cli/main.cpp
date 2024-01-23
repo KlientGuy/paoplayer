@@ -122,15 +122,13 @@ void processArgv(const int argc, char *argv[])
         pa_connector.setStateAndExit(MS_NEXT);
     }
 
-    if((ops_mask & OPS_CLEAR_EXISTING) == OPS_CLEAR_EXISTING)
-    {
+    if((ops_mask & OPS_CLEAR_EXISTING) == OPS_CLEAR_EXISTING) {
         song_controller.removeExistingSongs();
-        // exit(0);
     }
 
     if((ops_mask & OPS_FROM_URL) == OPS_FROM_URL)
     {
-//         song_controller.fetchSongsFromPlaylist(4, 6);
+         song_controller.fetchSongsFromPlaylist(1, 1);
         online = true;
     }
 }

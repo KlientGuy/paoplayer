@@ -13,14 +13,14 @@ namespace songs
         m_current_url = url;
     }
 
-    void SongController::fetchSongsFromPlaylist(const uint8_t index_start, const uint8_t index_end)
+    int SongController::fetchSongsFromPlaylist(const uint8_t index_start, const uint8_t index_end)
     {
         if(!checkSongDir())
         {
             if(!m_quiet)
                 std::cout << "Could not create a directory at " << SONG_DIR << std::endl;
 
-            return;
+            return -1;
         }
 
         char *prepare_command = (char *) malloc(sizeof(YT_DLP_CMD) + m_current_url.size() * sizeof(char));
@@ -28,16 +28,24 @@ namespace songs
         sprintf(prepare_command, YT_DLP_CMD, index_start, index_end, m_current_url.c_str());
 
         if(m_verbose)
-            std::cout << "Downloading with command " << prepare_command << std::endl;
+            std::cout << "Downloading with command \033[32m\n" << prepare_command << "\033[0m" <<  std::endl;
 
         if(system(prepare_command) == 256 && !m_quiet)
         {
             std::cout << "yt-dlp exited with error" << std::endl;
+            return -2;
         }
 
-        m_song_index = index_start;
+        m_song_index = index_start - 1;
+        m_max_index = index_end;
 
         free(prepare_command);
+        return 0;
+    }
+
+    void SongController::prefetchSongs()
+    {
+        fetchSongsFromPlaylist( m_max_index + 1, m_max_index + m_prefetch_count);
     }
 
     bool SongController::checkSongDir()
@@ -77,6 +85,23 @@ namespace songs
     {
         m_song_index++;
         findSongWithCurrentIndex();
+        
+        if(m_song_index == m_max_index)
+        {
+            std::thread download_thread(&SongController::prefetchSongs, this);
+            download_thread.detach();
+            
+//            int childPid;
+//            if((childPid = fork()) == 0)
+//            {
+//                std::cout << "Could not create a child process" << std::endl;
+//            }
+//            else if(childPid == 0)
+//            {
+//                int downloadRes = prefetchSongs();
+//                exit(downloadRes < 0 ? -1 : 0);
+//            }
+        }
     }
 
     void SongController::previous()
@@ -105,7 +130,7 @@ namespace songs
         }
         else if(!m_quiet)
         {
-            std::cout << "No song found with index: " << m_song_index << std::endl;
+            std::cout << "No song found with index: " << std::to_string(m_song_index) << std::endl;
         }
 
         if(!m_quiet)
