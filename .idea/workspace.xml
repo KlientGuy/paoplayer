@@ -23,8 +23,12 @@
   <component name="ChangeListManager">
     <list default="true" id="7a286d14-8cb1-4ff2-80dc-80d65e570df0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_cli/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_cli/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +71,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "CMake Application.music_widget.executor": "Valgrind",
+    "CMake Application.music_widget.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -90,7 +94,12 @@
   }
 }]]></component>
   <component name="RunManager" selected="CMake Application.music_widget">
-    <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-cU https://music.youtube.com/playlist?list=RDTMAK5uy_kset8DisdE7LSD4TNjEVvrKRTmG7a56sY" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-cDvU https://music.youtube.com/playlist?list=RDTMAK5uy_kset8DisdE7LSD4TNjEVvrKRTmG7a56sY" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -131,7 +140,7 @@
       <workItem from="1705784357972" duration="6259000" />
       <workItem from="1705830969537" duration="24129000" />
       <workItem from="1706035258077" duration="9819000" />
-      <workItem from="1706121952640" duration="3824000" />
+      <workItem from="1706121952640" duration="13638000" />
     </task>
     <servers />
   </component>
@@ -142,6 +151,17 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/music_widget_base/PaConnector.cpp</url>
+          <line>233</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

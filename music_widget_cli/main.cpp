@@ -154,6 +154,7 @@ void setupSignals()
     signal(SIGTERM, sigtermCleanup);
     signal(SIGINT, sigtermCleanup);
     signal(SIGQUIT, sigtermCleanup);
+    signal(SIGABRT, sigtermCleanup);
 }
 
 int main(int argc, char *argv[])
@@ -179,20 +180,20 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
+    pa_connector.initMainloop();
+
+    if(!pa_connector.createContext("Pao player"))
+    {
+        std::cerr << "pulse_audio.create_context() failed!";
+        pa_connector.removeSharedMemory();
+        exit(1);
+    }
+    
     if(online) {
         song_controller.next();
     }
     else if(!pa_connector.openSongToRead(argv[1]))
     {
-        pa_connector.removeSharedMemory();
-        exit(1);
-    }
-
-    pa_connector.initMainloop();
-
-    if(!pa_connector.createContext("Music Widget"))
-    {
-        std::cerr << "pulse_audio.create_context() failed!";
         pa_connector.removeSharedMemory();
         exit(1);
     }

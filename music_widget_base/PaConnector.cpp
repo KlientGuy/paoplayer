@@ -5,6 +5,8 @@ namespace pulse_audio
     PaConnector::PaConnector()
     {
         pm_instance = this;
+        pm_selected_stream_name = (char*) malloc(5);
+        strcpy(pm_selected_stream_name, "Music");
     }
 
     PaConnector *PaConnector::getInstance() { return pm_instance; }
@@ -90,7 +92,7 @@ namespace pulse_audio
 
         pa_connector->setVolumeObject(&info->volume);
         pa_operation* operation = pa_context_set_sink_input_volume(context, info->index, pa_connector->getVolumeObject(), nullptr, nullptr);
-        pa_operation_unref(operation);
+        pa_connector->paUnref(operation);
 
         if(pa_connector->isDebug())
         {
@@ -107,7 +109,7 @@ namespace pulse_audio
             .channels = 2
         };
 
-        pa_stream *stream = pa_stream_new(this->pm_context, "New Stream", &this->pm_sample_spec, nullptr);
+        pa_stream *stream = pa_stream_new(this->pm_context, pm_selected_stream_name, &this->pm_sample_spec, nullptr);
 
         pa_stream_set_state_callback(stream, stream_state_callback, pm_context);
         pa_stream_connect_playback(stream, nullptr, nullptr, (pa_stream_flags) 0, nullptr, nullptr);
@@ -216,6 +218,34 @@ namespace pulse_audio
         return pm_selected_stream;
     }
 
+    void PaConnector::setSelectedStreamName(const char *name)
+    {
+        pm_selected_stream_name = (char*)realloc(pm_selected_stream_name, strlen(name));
+        strcpy(pm_selected_stream_name, name);
+        
+        if(pm_selected_stream != nullptr)
+            paUnref(pa_stream_set_name(pm_selected_stream, name, nullptr, nullptr));
+    }
+
+    void PaConnector::setSelectedStreamName()
+    {
+        if(pm_selected_stream != nullptr)
+        {
+            paUnref(pa_stream_set_name(pm_selected_stream, pm_selected_stream_name, nullptr, nullptr));
+        }
+    }
+
+    char *PaConnector::getSelectedStreamName()
+    {
+        return pm_selected_stream_name;
+    }
+
+    void PaConnector::paUnref(pa_operation *operation) const
+    {
+        if(operation != nullptr)
+            pa_operation_unref(operation);
+    }
+
 
     void PaConnector::pause(pa_stream *stream)
     {
@@ -321,7 +351,7 @@ namespace pulse_audio
         {
             PaConnector* pa_connector = PaConnector::getInstance();
             pa_operation* operation = pa_context_get_sink_input_info(context, pa_stream_get_index(pa_connector->getSelectedStream()), getDefaultVolume, pa_connector);
-            pa_operation_unref(operation);
+            pa_connector->paUnref(operation);
         }
     }
 
@@ -383,7 +413,7 @@ namespace pulse_audio
         pa_operation* operation = pa_context_subscribe(context,  PA_SUBSCRIPTION_MASK_SINK_INPUT, nullptr, nullptr);
         pa_context_set_subscribe_callback(context, subCb, nullptr);
 
-        pa_operation_unref(operation);
+        paConnector->paUnref(operation);
     }
 
 
@@ -425,13 +455,13 @@ namespace pulse_audio
 
         pa_operation* operation = pa_stream_drain(stream, nullptr, nullptr);
 
-        pa_operation_unref(operation);
+        paConnector->paUnref(operation);
     }
 
     void stream_state_callback(pa_stream *stream, void *context)
     {
         const pa_stream_state_t state = pa_stream_get_state(stream);
-        const PaConnector *paConnector = PaConnector::getInstance();
+        PaConnector *paConnector = PaConnector::getInstance();
 
         if(paConnector->isDebug()) goto handle_debug;
         else goto handle_no_debug;
@@ -462,15 +492,16 @@ namespace pulse_audio
                 std::cout << state << std::endl;
                 break;
         }
-            
+
     handle_no_debug:
         switch(state)
         {
             case PA_STREAM_READY:
                 {
+                    pa_operation* operation;
                     pa_stream_set_write_callback(stream, stream_write_callback, nullptr);
-                    pa_operation* operation = pa_context_get_sink_input_info((pa_context*) context, pa_stream_get_index(stream), getDefaultVolume, (void*) paConnector);
-                    pa_operation_unref(operation);
+                    operation = pa_context_get_sink_input_info((pa_context*) context, pa_stream_get_index(stream), getDefaultVolume, (void*) paConnector);
+                    paConnector->paUnref(operation);
                 }
                 break;
             case PA_STREAM_FAILED:

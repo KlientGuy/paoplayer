@@ -67,7 +67,7 @@ namespace songs
 
         bool checkSongDir();
         std::string makeSongPattern() const;
-        void findSongWithCurrentIndex();
+        std::string findSongWithCurrentIndex();
     };
 
 #endif //SONGCONTROLLER_H

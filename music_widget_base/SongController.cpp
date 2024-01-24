@@ -84,23 +84,14 @@ namespace songs
     void SongController::next()
     {
         m_song_index++;
-        findSongWithCurrentIndex();
+        
+        std::string name = findSongWithCurrentIndex();
+        pm_pa_connector->setSelectedStreamName(name.c_str());
         
         if(m_song_index == m_max_index)
         {
             std::thread download_thread(&SongController::prefetchSongs, this);
             download_thread.detach();
-            
-//            int childPid;
-//            if((childPid = fork()) == 0)
-//            {
-//                std::cout << "Could not create a child process" << std::endl;
-//            }
-//            else if(childPid == 0)
-//            {
-//                int downloadRes = prefetchSongs();
-//                exit(downloadRes < 0 ? -1 : 0);
-//            }
         }
     }
 
@@ -112,10 +103,10 @@ namespace songs
             return;
         }
 
-        findSongWithCurrentIndex();
+//        findSongWithCurrentIndex();
     }
 
-    void SongController::findSongWithCurrentIndex()
+    std::string SongController::findSongWithCurrentIndex()
     {
         const std::string path = makeSongPattern();
 
@@ -131,6 +122,7 @@ namespace songs
         else if(!m_quiet)
         {
             std::cout << "No song found with index: " << std::to_string(m_song_index) << std::endl;
+            return "";
         }
 
         if(!m_quiet)
@@ -141,7 +133,10 @@ namespace songs
             }
         }
 
+        std::string out = buff.gl_pathv[0];
+        
         globfree(&buff);
+        return out;
     }
 
     std::string SongController::makeSongPattern() const
