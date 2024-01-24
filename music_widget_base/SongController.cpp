@@ -140,6 +140,8 @@ namespace songs
                 std::cout << "Found: " << buff.gl_pathv[i] << std::endl;
             }
         }
+
+        globfree(&buff);
     }
 
     std::string SongController::makeSongPattern() const
@@ -170,6 +172,8 @@ namespace songs
                 std::cout << "Removed " << buffer.gl_pathv[i] << std::endl;
             }
         }
+
+        globfree(&buffer);
     }
 
 

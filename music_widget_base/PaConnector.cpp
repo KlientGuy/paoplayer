@@ -89,7 +89,8 @@ namespace pulse_audio
             return;
 
         pa_connector->setVolumeObject(&info->volume);
-        pa_context_set_sink_input_volume(context, info->index, pa_connector->getVolumeObject(), nullptr, nullptr);
+        pa_operation* operation = pa_context_set_sink_input_volume(context, info->index, pa_connector->getVolumeObject(), nullptr, nullptr);
+        pa_operation_unref(operation);
 
         if(pa_connector->isDebug())
         {
@@ -319,7 +320,8 @@ namespace pulse_audio
         if((event & PA_SUBSCRIPTION_EVENT_FACILITY_MASK) == PA_SUBSCRIPTION_EVENT_SINK_INPUT && (event & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_CHANGE)
         {
             PaConnector* pa_connector = PaConnector::getInstance();
-            pa_context_get_sink_input_info(context, pa_stream_get_index(pa_connector->getSelectedStream()), getDefaultVolume, pa_connector);
+            pa_operation* operation = pa_context_get_sink_input_info(context, pa_stream_get_index(pa_connector->getSelectedStream()), getDefaultVolume, pa_connector);
+            pa_operation_unref(operation);
         }
     }
 
@@ -378,9 +380,10 @@ namespace pulse_audio
         
     context_ready:
         paConnector->connectStream();
-        pa_context_subscribe(context,  PA_SUBSCRIPTION_MASK_SINK_INPUT, nullptr, nullptr);
+        pa_operation* operation = pa_context_subscribe(context,  PA_SUBSCRIPTION_MASK_SINK_INPUT, nullptr, nullptr);
         pa_context_set_subscribe_callback(context, subCb, nullptr);
-        
+
+        pa_operation_unref(operation);
     }
 
 
@@ -420,7 +423,9 @@ namespace pulse_audio
 //        if(written < 0)
 //            exit(0);
 
-        pa_stream_drain(stream, nullptr, nullptr);
+        pa_operation* operation = pa_stream_drain(stream, nullptr, nullptr);
+
+        pa_operation_unref(operation);
     }
 
     void stream_state_callback(pa_stream *stream, void *context)
@@ -462,8 +467,11 @@ namespace pulse_audio
         switch(state)
         {
             case PA_STREAM_READY:
-                pa_stream_set_write_callback(stream, stream_write_callback, nullptr);
-                pa_context_get_sink_input_info((pa_context*) context, pa_stream_get_index(stream), getDefaultVolume, (void*) paConnector);
+                {
+                    pa_stream_set_write_callback(stream, stream_write_callback, nullptr);
+                    pa_operation* operation = pa_context_get_sink_input_info((pa_context*) context, pa_stream_get_index(stream), getDefaultVolume, (void*) paConnector);
+                    pa_operation_unref(operation);
+                }
                 break;
             case PA_STREAM_FAILED:
                 std::cout << "Pulse Audio stream failed" << std::endl;
