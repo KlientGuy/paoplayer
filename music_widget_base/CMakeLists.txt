@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_library(music_widget_base STATIC PaConnector.cpp
         SongController.cpp
-        SongController.h
-        ConfigParser.cpp
-        ConfigParser.h)
+        SongController.h)
 target_include_directories(music_widget PRIVATE /usr/include/pulse)
 target_link_libraries(music_widget pulse)

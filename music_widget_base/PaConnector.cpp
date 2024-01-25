@@ -5,8 +5,7 @@ namespace pulse_audio
     PaConnector::PaConnector()
     {
         pm_instance = this;
-        pm_selected_stream_name = (char*) malloc(6);
-        strcpy(pm_selected_stream_name, "Music\0");
+        pm_selected_stream_name = "Music";
     }
 
     PaConnector *PaConnector::getInstance() { return pm_instance; }
@@ -109,7 +108,7 @@ namespace pulse_audio
             .channels = 2
         };
 
-        pa_stream *stream = pa_stream_new(this->pm_context, pm_selected_stream_name, &this->pm_sample_spec, nullptr);
+        pa_stream *stream = pa_stream_new(this->pm_context, pm_selected_stream_name.c_str(), &this->pm_sample_spec, nullptr);
 
         pa_stream_set_state_callback(stream, stream_state_callback, pm_context);
         pa_stream_connect_playback(stream, nullptr, nullptr, (pa_stream_flags) 0, nullptr, nullptr);
@@ -218,24 +217,26 @@ namespace pulse_audio
         return pm_selected_stream;
     }
 
-    void PaConnector::setSelectedStreamName(const char *name)
+    void PaConnector::setSelectedStreamName(const std::string &name)
     {
-        pm_selected_stream_name = (char*)realloc(pm_selected_stream_name, strlen(name) * sizeof(char));
-        strcpy(pm_selected_stream_name, name);
+//        pm_selected_stream_name = (char*)realloc(pm_selected_stream_name, strlen(name) * sizeof(char));
+//        strcpy(pm_selected_stream_name, name);
+        
+        pm_selected_stream_name = name;
         
         if(pm_selected_stream != nullptr)
-            paUnref(pa_stream_set_name(pm_selected_stream, name, nullptr, nullptr));
+            paUnref(pa_stream_set_name(pm_selected_stream, pm_selected_stream_name.c_str(), nullptr, nullptr));
     }
 
     void PaConnector::setSelectedStreamName()
     {
         if(pm_selected_stream != nullptr)
         {
-            paUnref(pa_stream_set_name(pm_selected_stream, pm_selected_stream_name, nullptr, nullptr));
+            paUnref(pa_stream_set_name(pm_selected_stream, pm_selected_stream_name.c_str(), nullptr, nullptr));
         }
     }
 
-    char *PaConnector::getSelectedStreamName()
+    std::string PaConnector::getSelectedStreamName()
     {
         return pm_selected_stream_name;
     }

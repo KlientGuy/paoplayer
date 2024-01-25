@@ -120,9 +120,9 @@ namespace pulse_audio
         void removeSharedMemory() const;
 
         pa_stream *getSelectedStream();
-        void setSelectedStreamName(const char* name);
+        void setSelectedStreamName(const std::string &name);
         void setSelectedStreamName();
-        char* getSelectedStreamName();
+        std::string getSelectedStreamName();
         void paUnref(pa_operation* operation) const;
         
         void setVolume(double volume);
@@ -144,7 +144,7 @@ namespace pulse_audio
         FILE *pm_current_song = nullptr;
         size_t m_current_song_byte_count = 0;
         std::function<void()> pm_end_of_song_callback;
-        char* pm_selected_stream_name;
+        std::string pm_selected_stream_name;
 
         pa_cvolume* m_volume = nullptr;
 
