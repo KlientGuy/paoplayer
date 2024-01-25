@@ -5,8 +5,8 @@ namespace pulse_audio
     PaConnector::PaConnector()
     {
         pm_instance = this;
-        pm_selected_stream_name = (char*) malloc(5);
-        strcpy(pm_selected_stream_name, "Music");
+        pm_selected_stream_name = (char*) malloc(6);
+        strcpy(pm_selected_stream_name, "Music\0");
     }
 
     PaConnector *PaConnector::getInstance() { return pm_instance; }
@@ -220,7 +220,7 @@ namespace pulse_audio
 
     void PaConnector::setSelectedStreamName(const char *name)
     {
-        pm_selected_stream_name = (char*)realloc(pm_selected_stream_name, strlen(name));
+        pm_selected_stream_name = (char*)realloc(pm_selected_stream_name, strlen(name) * sizeof(char));
         strcpy(pm_selected_stream_name, name);
         
         if(pm_selected_stream != nullptr)

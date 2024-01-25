@@ -23,12 +23,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7a286d14-8cb1-4ff2-80dc-80d65e570df0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music_widget_base/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music_widget_cli/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_cli/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,37 +63,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "CMake Application.music_widget.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.RadMigrateCodeStyle": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cf.advertisement.text.overridden": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "dynamic.analysis.tools.valgrind",
-    "structure.view.defaults.are.configured": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;CMake Application.music_widget.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.advertisement.text.overridden&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;dynamic.analysis.tools.valgrind&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="CMake Application.music_widget">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-cDvU https://music.youtube.com/playlist?list=RDTMAK5uy_kset8DisdE7LSD4TNjEVvrKRTmG7a56sY" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -140,7 +130,8 @@
       <workItem from="1705784357972" duration="6259000" />
       <workItem from="1705830969537" duration="24129000" />
       <workItem from="1706035258077" duration="9819000" />
-      <workItem from="1706121952640" duration="13638000" />
+      <workItem from="1706121952640" duration="13693000" />
+      <workItem from="1706209210290" duration="363000" />
     </task>
     <servers />
   </component>
@@ -151,17 +142,6 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticReloadCMake value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/music_widget_base/PaConnector.cpp</url>
-          <line>233</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
