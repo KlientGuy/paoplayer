@@ -6,11 +6,13 @@
 
 #include "SongController.h"
 #include "lib/OP_MASKS.h"
+#include "ConfigParser.h"
 
 #define MILISECOND 1000
 
 int ops_mask = OPS_MASK;
 
+//config::ConfigParser config_parser;
 pulse_audio::PaConnector pa_connector;
 songs::SongController song_controller(&pa_connector);
 
@@ -159,6 +161,8 @@ void setupSignals()
 
 int main(int argc, char *argv[])
 {
+//    config_parser.parse();
+//    exit(0);
     setupSignals();
 
     int err_code = 0;

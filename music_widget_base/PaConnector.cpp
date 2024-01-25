@@ -505,7 +505,7 @@ namespace pulse_audio
                 }
                 break;
             case PA_STREAM_FAILED:
-                std::cout << "Pulse Audio stream failed" << std::endl;
+                std::cout << "Pulse Audio m_stream failed" << std::endl;
                 paConnector->removeSharedMemory();
                 break;
             default:

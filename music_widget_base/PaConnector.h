@@ -74,7 +74,7 @@ namespace pulse_audio
         bool createContext(const char *context_name);
 
         /**
-         * \brief Creates a new PA stream, connects to it and sets the new stream as selected
+         * \brief Creates a new PA m_stream, connects to it and sets the new m_stream as selected
          * for handling state changes
          */
         void connectStream();
@@ -105,8 +105,8 @@ namespace pulse_audio
         void executeEndOfSongCallback();
 
         /**
-         * \brief Handles state changes on particular stream
-         * \param stream stream to do action on
+         * \brief Handles state changes on particular m_stream
+         * \param stream m_stream to do action on
          */
         void handleStateChange(pa_stream *stream);
 
@@ -150,7 +150,7 @@ namespace pulse_audio
 
         int m_shm_fd{};
         /**
-         * \brief Default state for stream is MS_DEFAULT defined in MusicStateEnum.h
+         * \brief Default state for m_stream is MS_DEFAULT defined in MusicStateEnum.h
          */
         uint8_t *pm_state{};
         pc_shared_data *pm_shared{};
