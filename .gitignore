@@ -1,2 +1,4 @@
 music_widget_base/cmake-build-debug
 music_widget_cli/cmake-build-debug
+music_widget_base/.idea
+music_widget_cli/.idea
