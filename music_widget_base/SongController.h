@@ -19,6 +19,8 @@ namespace songs
 
         void enableVerbose();
         void enableQuiet();
+        
+        void setConfig();
 
         void setPlaylistUrl(const std::string &url);
         

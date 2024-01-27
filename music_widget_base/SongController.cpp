@@ -6,6 +6,14 @@ namespace songs
     {
         pm_pa_connector = pa_connector;
         pa_connector->setEndOfSongCallback([this] { next(); });
+
+    }
+
+    void SongController::setConfig()
+    {
+        if(int size = pm_pa_connector->getConfig()->preload_size) {
+            m_prefetch_count = size;
+        }
     }
 
     void SongController::setPlaylistUrl(const std::string &url)
@@ -117,7 +125,6 @@ namespace songs
         if(buff.gl_pathc > 0)
         {
             pm_pa_connector->openSongToRead(buff.gl_pathv[0]);
-            m_current_song = buff.gl_pathv[0];
         }
         else if(!m_quiet)
         {
@@ -134,6 +141,12 @@ namespace songs
         }
 
         std::string out = buff.gl_pathv[0];
+        
+        out.erase(0, strlen(SONG_DIR));
+        std::string suffix = "_index_" + std::to_string(m_song_index) + ".wav";
+        out.erase(out.length() - suffix.length(), suffix.length());
+
+        m_current_song = out;
         
         globfree(&buff);
         return out;

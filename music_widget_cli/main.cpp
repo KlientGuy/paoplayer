@@ -139,7 +139,13 @@ void processArgv(const int argc, char *argv[])
 
     if((ops_mask & OPS_FROM_URL) == OPS_FROM_URL)
     {
-        song_controller.fetchSongsFromPlaylist(1, 1);
+        int size = 1;
+
+        if(config_instance->preload_size) {
+            size = config_instance->preload_size;
+        }
+        
+        song_controller.fetchSongsFromPlaylist(1, size);
         online = true;
     }
 }
@@ -172,6 +178,7 @@ int main(int argc, char *argv[])
 {
     config_instance = config_parser.parse();
     pa_connector.setConfig(config_instance);
+    song_controller.setConfig();
     setupSignals();
 
     int err_code = 0;
