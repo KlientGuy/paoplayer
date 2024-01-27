@@ -9,7 +9,6 @@ add_library(music_widget_base STATIC PaConnector.cpp
         ConfigParser.cpp
         ConfigParser.h
         paop_config.h
-        Lexer.cpp
         Lexer.h)
 target_include_directories(music_widget PRIVATE /usr/include/pulse)
 target_link_libraries(music_widget pulse)

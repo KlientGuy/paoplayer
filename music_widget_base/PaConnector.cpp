@@ -276,6 +276,7 @@ namespace pulse_audio
     {
         pa_mainloop_free(this->pm_main_loop);
         removeSharedMemory();
+        delete pm_config;
     }
 
     void PaConnector::executeEndOfSongCallback()
@@ -342,6 +343,16 @@ namespace pulse_audio
     {
         double curr_vol = pa_sw_volume_to_linear(*pm_shared->volume.values);
         setVolume(curr_vol);
+    }
+
+    void PaConnector::setConfig(config::paop_config *config)
+    {
+        pm_config = config;
+    }
+
+    config::paop_config *PaConnector::getConfig()
+    {
+        return pm_config;
     }
 
     void subCb(pa_context* context, pa_subscription_event_type_t event, uint32_t index, void* userdata)

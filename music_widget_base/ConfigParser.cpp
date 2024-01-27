@@ -3,35 +3,94 @@
 namespace config {
     ConfigParser::ConfigParser()
     {
-        pm_config = (const paop_config*)malloc(sizeof(paop_config));
-        m_config_path = std::string(getenv("HOME")) + "/config/paoplayer/config";
+        pm_config = new paop_config;
+        m_config_path = std::string(getenv("HOME")) + "/.config/paoplayer/config";
         openConfig();
     }
     
     void ConfigParser::openConfig()
     {
         m_stream.open(m_config_path, std::ios::in);
-        if(std::ifstream::failbit == 0x04)
+        if(m_stream.fail())
         {
-//            printf("Failed to open config file at %s", CONFIG_PATH);
+            printf("Failed to open config file at %s: %s\n", m_config_path.c_str(), strerror(errno));
         }
     }
 
-    void ConfigParser::parse()
+    paop_config* ConfigParser::parse()
     {
-        std::string line;
+        std::string line, err_message;;
+        int token_type, line_count = 1;
+        
+        std::unordered_map<std::string, std::string> config_map;
+        
         while(getline(m_stream, line))
         {
-            std::cout << getToken(line) << std::endl;
+            int line_index = -1;
+            token_type = TOKEN_COMMENT;
+            long line_len = (long)line.length();
+            std::string key;
+            
+            while(line_index < line_len)
+            {
+                std::string token = getToken(line, line_index, token_type, err_message);
+
+                switch(token_type) {
+                    case TOKEN_KEY:
+                        if(key.empty()) {
+                            key = token;
+                        }
+                        else {
+                            setConfigProps(key, token);
+                        }
+                        
+                        line_index--;
+                        break;
+                    case TOKEN_INVALID:
+                    case TOKEN_COMMENT:
+                        goto endline;
+                    default:
+                        //Do nothing
+                        break;
+                }
+            }
+            
+        endline:
+            line_count++;
+            
+            if(token_type == TOKEN_INVALID)
+                break;
         }
+        if(token_type == TOKEN_INVALID)
+        {
+            std::cerr << err_message << " line " << std::to_string(line_count) << std::endl;
+            std::cerr << "Here: " << line << std::endl;
+        }
+        else
+        {
+            for(const auto &i : config_map) {
+                std::cout << i.first << " : " << i.second << std::endl;
+            }
+        }
+        
+        return pm_config;
     }
 
-    std::string ConfigParser::getToken(const std::string &line)
+    std::string ConfigParser::getToken(const std::string &line, int &line_index, int &token_type, std::string &error_message)
     {
         std::string token;
         bool prev_space = false;
-        for(int i = 0; i < line.length(); i++) {
+        int i;
+
+        if(line.empty())
+        {
+            token_type = TOKEN_COMMENT;
+            return "";
+        }
+
+        for(i = line_index + 1; i < line.length(); i++) {
             char character = line[i];
+//            printf("%c", character);
 
             if(character == ' ')
             {
@@ -43,22 +102,58 @@ namespace config {
             if((iterator = m_lexer.special_tokens.find(character)) != m_lexer.special_tokens.end())
             {
                 if(!token.empty()) {
-                    return token;
+                    token_type = TOKEN_KEY;
+                    break;
                 }
                 
+                token_type = TOKEN_SPECIAL;
                 token = character;
-                return token;
+                break;
             }
-            else if(prev_space)
+            else if(prev_space && token_type != TOKEN_SPECIAL)
             {
-                printf("Unexpected whitespace at line 0 character %d\n", i);
+                token_type = TOKEN_INVALID;
+                error_message = "Unexpected whitespace at character " + std::to_string(i);
+                break;
             }
             
             token += character;
             prev_space = false;
         }
 
-        if(token.empty())
-            return token;
+        line_index = i;
+        token.erase(token.begin(), std::find_if(token.begin(), token.end(), [](unsigned char chr) {
+            return !std::iswspace(chr);
+        }));
+        
+        token.erase(std::find_if(token.rbegin(), token.rend(), [](unsigned char chr) {
+            return !std::iswspace(chr);
+        }).base(), token.end());
+        
+        return token;
+    }
+
+    void ConfigParser::setConfigProps(const std::string &key, std::string &value)
+    {
+        if(m_config_map.find(key) == m_config_map.end())
+        {
+            std::cout << "Unrecognized option " << key << std::endl;
+            return;
+        }
+
+        switch(m_config_map.at(key)) {
+            case CONF_DEFAULT_PLAYLIST_URL:
+                pm_config->default_playlist_url = value;
+                break;
+            case CONF_PRELOAD_COUNT:
+                pm_config->preload_size = std::stoi(value);
+                break;
+            case CONF_SAVE_PREVIOUS:
+                bool val;
+                std::istringstream stream(value);
+                stream >> std::boolalpha >> val; 
+                pm_config->save_previous = val;
+                break;
+        }
     }
 }

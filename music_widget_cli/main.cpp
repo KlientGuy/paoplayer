@@ -12,7 +12,7 @@
 
 int ops_mask = OPS_MASK;
 
-//config::ConfigParser config_parser;
+config::ConfigParser config_parser;
 pulse_audio::PaConnector pa_connector;
 songs::SongController song_controller(&pa_connector);
 
@@ -130,7 +130,7 @@ void processArgv(const int argc, char *argv[])
 
     if((ops_mask & OPS_FROM_URL) == OPS_FROM_URL)
     {
-         song_controller.fetchSongsFromPlaylist(1, 1);
+        song_controller.fetchSongsFromPlaylist(1, 1);
         online = true;
     }
 }
@@ -161,8 +161,9 @@ void setupSignals()
 
 int main(int argc, char *argv[])
 {
-//    config_parser.parse();
-//    exit(0);
+    config::paop_config* config = config_parser.parse();
+    pa_connector.setConfig(config);
+    exit(0);
     setupSignals();
 
     int err_code = 0;

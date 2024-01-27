@@ -3,7 +3,7 @@
 
 namespace config {
     struct paop_config {
-        const char* default_playlist_url;
+        std::string default_playlist_url;
         int preload_size;
         bool save_previous;
     };

@@ -17,6 +17,7 @@
 #include <pulse/subscribe.h>
 
 #include "MusicStateEnum.h"
+#include "paop_config.h"
 
 #define SHM_PAGE_SIZE 4096
 #define SHM_NAME "/music_widget"
@@ -133,6 +134,9 @@ namespace pulse_audio
         
         void changeVolumeShared(double amount);
         void handleVolumeChange();
+        
+        void setConfig(config::paop_config* config);
+        config::paop_config* getConfig();
 
         static PaConnector *getInstance();
         void cleanup() const;
@@ -154,6 +158,8 @@ namespace pulse_audio
          */
         uint8_t *pm_state{};
         pc_shared_data *pm_shared{};
+        
+        config::paop_config* pm_config;
 
         pa_mainloop *pm_main_loop{};
         pa_mainloop_api *pm_main_loop_api{};
