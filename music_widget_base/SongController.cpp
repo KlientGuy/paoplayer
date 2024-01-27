@@ -94,7 +94,7 @@ namespace songs
         m_song_index++;
         
         std::string name = findSongWithCurrentIndex();
-        pm_pa_connector->setSelectedStreamName(name.c_str());
+        pm_pa_connector->setSelectedStreamName(name);
         
         if(m_song_index == m_max_index)
         {

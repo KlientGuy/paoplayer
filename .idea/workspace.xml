@@ -23,9 +23,10 @@
   <component name="ChangeListManager">
     <list default="true" id="7a286d14-8cb1-4ff2-80dc-80d65e570df0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/music_widget_cli/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_cli/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +41,11 @@
     <option name="myAllFileTypesSelected" value="false" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="config_parser" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
