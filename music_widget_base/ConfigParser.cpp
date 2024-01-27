@@ -22,8 +22,6 @@ namespace config {
         std::string line, err_message;;
         int token_type, line_count = 1;
         
-        std::unordered_map<std::string, std::string> config_map;
-        
         while(getline(m_stream, line))
         {
             int line_index = -1;
@@ -34,17 +32,17 @@ namespace config {
             while(line_index < line_len)
             {
                 std::string token = getToken(line, line_index, token_type, err_message);
-
+                
                 switch(token_type) {
                     case TOKEN_KEY:
-                        if(key.empty()) {
-                            key = token;
-                        }
-                        else {
-                            setConfigProps(key, token);
-                        }
-                        
+                        key = token;
                         line_index--;
+                        break;
+                    case TOKEN_SPECIAL:
+                        token_type = TOKEN_VALUE;
+                        break;
+                    case TOKEN_VALUE:
+                        setConfigProps(key, token);
                         break;
                     case TOKEN_INVALID:
                     case TOKEN_COMMENT:
@@ -66,12 +64,6 @@ namespace config {
             std::cerr << err_message << " line " << std::to_string(line_count) << std::endl;
             std::cerr << "Here: " << line << std::endl;
         }
-        else
-        {
-            for(const auto &i : config_map) {
-                std::cout << i.first << " : " << i.second << std::endl;
-            }
-        }
         
         return pm_config;
     }
@@ -90,7 +82,6 @@ namespace config {
 
         for(i = line_index + 1; i < line.length(); i++) {
             char character = line[i];
-//            printf("%c", character);
 
             if(character == ' ')
             {
@@ -98,14 +89,20 @@ namespace config {
                 continue;
             }
 
-            std::__detail::_Node_iterator<char, 1, 0> iterator;
-            if((iterator = m_lexer.special_tokens.find(character)) != m_lexer.special_tokens.end())
+            if(token_type == TOKEN_VALUE)
+            {
+                token += character;
+                prev_space = false;
+                continue;
+            }
+
+            if(m_lexer.special_tokens.find(character) != m_lexer.special_tokens.end())
             {
                 if(!token.empty()) {
                     token_type = TOKEN_KEY;
                     break;
                 }
-                
+
                 token_type = TOKEN_SPECIAL;
                 token = character;
                 break;
