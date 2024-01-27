@@ -95,6 +95,25 @@ namespace songs
         
         std::string name = findSongWithCurrentIndex();
         pm_pa_connector->setSelectedStreamName(name);
+
+        
+        std::string playing = "\uF58F  " + name;
+//        std::string playing = name;
+        
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
+
+        std::wstring convert_string = convert.from_bytes(playing);
+        
+        if(convert_string.length() > 50) {
+            convert_string = convert_string.substr(0, 47) + L"...";
+        }
+        
+        playing = convert.to_bytes(convert_string);
+
+//        std::cout << "\uF58F  " << "  ";
+//        std::wcout << "  " << convert_string << "  " << std::endl;
+        
+        pm_pa_connector->setCurrentlyPlaying(&playing);
         
         if(m_song_index == m_max_index)
         {

@@ -22,8 +22,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a286d14-8cb1-4ff2-80dc-80d65e570df0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/PaConnector.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/PaConnector.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_base/SongController.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_base/SongController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_cli/lib/OP_MASKS.h" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_cli/lib/OP_MASKS.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_widget_cli/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/music_widget_cli/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +86,7 @@
     "cf.advertisement.text.overridden": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "config__parser",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -99,7 +104,7 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-cDvU https://music.youtube.com/playlist?list=RDTMAK5uy_kset8DisdE7LSD4TNjEVvrKRTmG7a56sY" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
+    <configuration name="music_widget" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-cU" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="music_widget" TARGET_NAME="music_widget" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="music_widget" RUN_TARGET_NAME="music_widget">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>

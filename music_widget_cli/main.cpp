@@ -22,7 +22,7 @@ bool online = false;
 void processArgv(const int argc, char *argv[])
 {
     int optCode;
-    const char *shortOptions = ":PptqvD ?U: :cn ?u: ?d:";
+    const char *shortOptions = ":PptqvD ?U: :cn ?u: ?d: -g";
     const option longOptions[] = {
         {"play", no_argument, nullptr, 'P'},
         {"pause", no_argument, nullptr, 'p'},
@@ -34,6 +34,7 @@ void processArgv(const int argc, char *argv[])
         {"next", no_argument, nullptr, 'n'},
         {"volume-up", no_argument, nullptr, 'u'},
         {"volume-down", no_argument, nullptr, 'd'},
+        {"currently-playing", no_argument, nullptr, 'g'},
         {nullptr, no_argument, nullptr, 0} //Segfaults on unrecognized option
     };
     
@@ -64,6 +65,8 @@ void processArgv(const int argc, char *argv[])
             case 'U': ops_mask |= OPS_FROM_URL;
                 song_controller.setPlaylistUrl(optarg);
                 break;
+            case 'g': ops_mask |= OPS_GET_PLAYING;
+                break;
             case 'c': ops_mask |= OPS_CLEAR_EXISTING;
                 break;
             case 'q': ops_mask |= OPS_QUIET;
@@ -76,7 +79,7 @@ void processArgv(const int argc, char *argv[])
                 if(optopt == 'U')
                 {
                     printf("No arg passed to -U using URL from config\n");
-                    std::cout << config_instance->default_playlist_url << std::endl;
+//                    std::cout << config_instance->default_playlist_url << std::endl;
                     song_controller.setPlaylistUrl(config_instance->default_playlist_url);
                     ops_mask |= OPS_FROM_URL;
                     break;
@@ -109,6 +112,11 @@ void processArgv(const int argc, char *argv[])
     if((ops_mask & OPS_VOL_UP) == OPS_VOL_UP && (ops_mask & OPS_VOL_DOWN) == OPS_VOL_DOWN)
     {
         std::cout << "Music Widget: -d and -u are mutually exclusive" << std::endl;
+    }
+
+    if((ops_mask & OPS_GET_PLAYING) == OPS_GET_PLAYING) {
+        pa_connector.printCurrentlyPlayingShared();
+        exit(0);
     }
     
     if((ops_mask & OPS_VOL_UP) == OPS_VOL_UP) {
@@ -167,7 +175,7 @@ void sigtermCleanup(int id)
 
 void setupSignals()
 {
-    signal(SIGSEGV, sigsegvCleanup);
+//    signal(SIGSEGV, sigsegvCleanup);
     signal(SIGTERM, sigtermCleanup);
     signal(SIGINT, sigtermCleanup);
     signal(SIGQUIT, sigtermCleanup);
@@ -179,6 +187,9 @@ int main(int argc, char *argv[])
     config_instance = config_parser.parse();
     pa_connector.setConfig(config_instance);
     song_controller.setConfig();
+    //std::cout << "ADAM" << std::endl;
+
+    //exit(0);
     setupSignals();
 
     int err_code = 0;

@@ -1,5 +1,7 @@
 #include "PaConnector.h"
 
+#include <utility>
+
 namespace pulse_audio
 {
     PaConnector::PaConnector()
@@ -239,6 +241,21 @@ namespace pulse_audio
     std::string PaConnector::getSelectedStreamName()
     {
         return pm_selected_stream_name;
+    }
+
+    void PaConnector::setCurrentlyPlaying(const std::string *title)
+    {
+        memset(pm_shared->currently_playing, '\0', 200);
+        memcpy(pm_shared->currently_playing, title->c_str(), title->length());
+    }
+
+    void PaConnector::printCurrentlyPlayingShared()
+    {
+        if(attachSharedMemory())
+        {
+            std::cout << "  " << pm_shared->currently_playing << "  " << std::endl;
+            munmap(pm_shared, sizeof(pc_shared_data));
+        }
     }
 
     void PaConnector::paUnref(pa_operation *operation) const

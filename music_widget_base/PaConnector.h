@@ -35,6 +35,7 @@ namespace pulse_audio
         pid_t host_pid;
         uint8_t music_state;
         pa_cvolume volume;
+        char currently_playing[200];
     };
 
     class PaConnector {
@@ -125,6 +126,9 @@ namespace pulse_audio
         void setSelectedStreamName();
         std::string getSelectedStreamName();
         void paUnref(pa_operation* operation) const;
+        
+        void setCurrentlyPlaying(const std::string *title);
+        void printCurrentlyPlayingShared();
         
         void setVolume(double volume);
         void setVolumeObject(const pa_cvolume *vol_object);
