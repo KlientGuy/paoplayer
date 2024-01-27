@@ -6,13 +6,16 @@
 
 #include "SongController.h"
 #include "lib/OP_MASKS.h"
+#include "ConfigParser.h"
 
 #define MILISECOND 1000
 
 int ops_mask = OPS_MASK;
 
+config::ConfigParser config_parser;
 pulse_audio::PaConnector pa_connector;
 songs::SongController song_controller(&pa_connector);
+config::paop_config* config_instance;
 
 bool online = false;
 
@@ -70,11 +73,19 @@ void processArgv(const int argc, char *argv[])
             case 'D': ops_mask |= OPS_DEBUG;
                 break;
             case ':':
-                printf("Music Widget: option %s needs and argument\n", argv[optind - 1]);
+                if(optopt == 'U')
+                {
+                    printf("No arg passed to -U using URL from config\n");
+                    std::cout << config_instance->default_playlist_url << std::endl;
+                    song_controller.setPlaylistUrl(config_instance->default_playlist_url);
+                    ops_mask |= OPS_FROM_URL;
+                    break;
+                }
+                printf("Music Widget: option %s needs and argument\n", argv[optopt - 1]);
                 exit(-1);
             default:
                 pa_connector.removeSharedMemory();
-                printf("Music Widget: Unrecognized option: %s\n", argv[optind - 1]);
+                printf("Music Widget: Unrecognized option: %s\n", argv[optopt - 1]);
                 exit(-1);
         }
     }
@@ -128,7 +139,13 @@ void processArgv(const int argc, char *argv[])
 
     if((ops_mask & OPS_FROM_URL) == OPS_FROM_URL)
     {
-         song_controller.fetchSongsFromPlaylist(1, 1);
+        int size = 1;
+
+        if(config_instance->preload_size) {
+            size = config_instance->preload_size;
+        }
+        
+        song_controller.fetchSongsFromPlaylist(1, size);
         online = true;
     }
 }
@@ -159,6 +176,9 @@ void setupSignals()
 
 int main(int argc, char *argv[])
 {
+    config_instance = config_parser.parse();
+    pa_connector.setConfig(config_instance);
+    song_controller.setConfig();
     setupSignals();
 
     int err_code = 0;
