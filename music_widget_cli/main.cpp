@@ -175,7 +175,7 @@ void sigtermCleanup(int id)
 
 void setupSignals()
 {
-//    signal(SIGSEGV, sigsegvCleanup);
+    signal(SIGSEGV, sigsegvCleanup);
     signal(SIGTERM, sigtermCleanup);
     signal(SIGINT, sigtermCleanup);
     signal(SIGQUIT, sigtermCleanup);

@@ -96,9 +96,11 @@ namespace songs
         std::string name = findSongWithCurrentIndex();
         pm_pa_connector->setSelectedStreamName(name);
 
+        if(!pm_pa_connector->getConfig()->save_previous && m_song_index > 1) {
+            removeExistingSongs(m_song_index - 1);
+        }
         
         std::string playing = "\uF58F  " + name;
-//        std::string playing = name;
         
         std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
 
@@ -110,9 +112,6 @@ namespace songs
         
         playing = convert.to_bytes(convert_string);
 
-//        std::cout << "\uF58F  " << "  ";
-//        std::wcout << "  " << convert_string << "  " << std::endl;
-        
         pm_pa_connector->setCurrentlyPlaying(&playing);
         
         if(m_song_index == m_max_index)
@@ -176,10 +175,17 @@ namespace songs
         return std::string(SONG_DIR) + "*_index_" + std::to_string(m_song_index) + std::string(".wav");
     }
 
-    void SongController::removeExistingSongs()
+    void SongController::removeExistingSongs(const int up_to)
     {
         if(!m_quiet)
-            std::cout << "Removing from " << SONG_DIR "*.wav" << std::endl;
+        {
+            std::cout << "Removing from " << SONG_DIR "*.wav";
+            
+            if(up_to > 0)
+                std::cout << " up to index " << std::to_string(up_to);
+            
+            std::cout << std::endl;
+        }
 
         glob_t buffer;
 
@@ -188,16 +194,46 @@ namespace songs
         if(m_verbose && buffer.gl_pathc <= 0)
             std::cout << "Nothing to remove" << std::endl;
 
+        int first_index = 0;
+        if(up_to > 0)
+        {
+            std::sort(buffer.gl_pathv, buffer.gl_pathv + buffer.gl_pathc, [&first_index](const char* first, const char* second){
+                std::string firstStr = first;
+                std::string secondStr = second;
+                
+                
+                unsigned long first_start = firstStr.rfind('_');
+                unsigned long first_end = firstStr.rfind('.');
+
+
+                unsigned long second_start = secondStr.rfind('_');
+                unsigned long second_end = secondStr.rfind('.');
+
+                int index1 = std::stoi(firstStr.substr(first_start + 1, first_end - first_start));
+                int index2 = std::stoi(secondStr.substr(second_start + 1, second_end - second_start));
+                
+                if(first_index > index1) {
+                    first_index = index1;
+                }
+                
+                return index1 < index2;
+            });
+        }
+
         for(int i = 0; i < buffer.gl_pathc; i++)
         {
-            if(unlink(buffer.gl_pathv[i]) == -1 && !m_quiet)
-            {
+            if(up_to > 0 && first_index == up_to)
+                break;
+            
+            if(unlink(buffer.gl_pathv[i]) == -1 && !m_quiet) {
                 std::cout << strerror(errno) << std::endl;
+                
             }
-            else if(m_verbose)
-            {
+            else if(m_verbose) {
                 std::cout << "Removed " << buffer.gl_pathv[i] << std::endl;
             }
+            
+            first_index++;
         }
 
         globfree(&buffer);

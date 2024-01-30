@@ -1,7 +1,5 @@
 #include "PaConnector.h"
 
-#include <utility>
-
 namespace pulse_audio
 {
     PaConnector::PaConnector()

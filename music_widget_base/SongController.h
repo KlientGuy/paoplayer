@@ -6,6 +6,7 @@
 #include <glob.h>
 #include <thread>
 #include <locale>
+#include <algorithm>
 
 #include "PaConnector.h"
 
@@ -53,7 +54,7 @@ namespace songs
         /**
          * Clears /tmp/music_widget
          */
-        void removeExistingSongs();
+        void removeExistingSongs(int up_to = 0);
 
     private:
         pulse_audio::PaConnector *pm_pa_connector;
