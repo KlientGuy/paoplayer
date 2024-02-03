@@ -44,7 +44,9 @@ namespace songs
             return -2;
         }
 
-        m_song_index = index_start - 1;
+		if(m_song_index < 1) {
+        	m_song_index = index_start - 1;
+		}
         m_max_index = index_end;
 
         free(prepare_command);
@@ -194,7 +196,7 @@ namespace songs
         if(m_verbose && buffer.gl_pathc <= 0)
             std::cout << "Nothing to remove" << std::endl;
 
-        int first_index = 0;
+        int first_index = 0x0FFFFFFF;
         if(up_to > 0)
         {
             std::sort(buffer.gl_pathv, buffer.gl_pathv + buffer.gl_pathc, [&first_index](const char* first, const char* second){
@@ -225,9 +227,10 @@ namespace songs
             if(up_to > 0 && first_index == up_to)
                 break;
             
+            std::cout << first_index << " " << up_to << std::endl;
+            
             if(unlink(buffer.gl_pathv[i]) == -1 && !m_quiet) {
                 std::cout << strerror(errno) << std::endl;
-                
             }
             else if(m_verbose) {
                 std::cout << "Removed " << buffer.gl_pathv[i] << std::endl;
