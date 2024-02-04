@@ -21,6 +21,8 @@
 #define CONF_DEFAULT_PLAYLIST_URL 1
 #define CONF_PRELOAD_COUNT 2
 #define CONF_SAVE_PREVIOUS 3
+#define CONF_SONG_DIR 4
+#define CONF_BROWSER_COOKIES 5
 
 namespace config {
     class ConfigParser
@@ -40,7 +42,9 @@ namespace config {
         std::unordered_map<std::string, int> m_config_map = {
                 {"default_playlist_url", CONF_DEFAULT_PLAYLIST_URL},
                 {"preload_count", CONF_PRELOAD_COUNT},
-                {"save_previous", CONF_SAVE_PREVIOUS}
+                {"save_previous", CONF_SAVE_PREVIOUS},
+                {"song_dir", CONF_SONG_DIR},
+                {"browser_cookies", CONF_BROWSER_COOKIES}
         };
         std::string m_config_path;
         std::ifstream m_stream;

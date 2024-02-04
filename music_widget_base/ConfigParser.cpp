@@ -80,6 +80,12 @@ namespace config {
             return "";
         }
 
+        if(line[line_index] == '#')
+        {
+            token_type = TOKEN_COMMENT;
+            return "";
+        }
+
         for(i = line_index + 1; i < line.length(); i++) {
             char character = line[i];
 
@@ -87,6 +93,10 @@ namespace config {
             {
                 prev_space = true;
                 continue;
+            }
+
+            if(character == '#') {
+                break;
             }
 
             if(token_type == TOKEN_VALUE)
@@ -146,10 +156,21 @@ namespace config {
                 pm_config->preload_size = std::stoi(value);
                 break;
             case CONF_SAVE_PREVIOUS:
+            {
                 bool val;
                 std::istringstream stream(value);
-                stream >> std::boolalpha >> val; 
+                stream >> std::boolalpha >> val;
                 pm_config->save_previous = val;
+                break;
+            }
+            case CONF_SONG_DIR:
+                if(value[value.length() - 1] != '/')
+                    value += '/';
+
+                pm_config->song_dir = value;
+                break;
+            case CONF_BROWSER_COOKIES:
+                pm_config->browser_cookies = value;
                 break;
         }
     }

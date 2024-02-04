@@ -1,8 +1,6 @@
-#include <bitset>
 #include <iostream>
 #include <getopt.h>
 #include <signal.h>
-#include <cmath>
 
 #include "SongController.h"
 #include "lib/OP_MASKS.h"
@@ -187,9 +185,10 @@ int main(int argc, char *argv[])
     config_instance = config_parser.parse();
     pa_connector.setConfig(config_instance);
     song_controller.setConfig();
-    //std::cout << "ADAM" << std::endl;
+    
+   // std::cout << config_instance->default_playlist_url << std::endl;
 
-    //exit(0);
+   // exit(0);
     setupSignals();
 
     int err_code = 0;

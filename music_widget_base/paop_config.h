@@ -6,6 +6,8 @@ namespace config {
         std::string default_playlist_url;
         int preload_size;
         bool save_previous;
+        std::string song_dir;
+        std::string browser_cookies;
     };
 }
 

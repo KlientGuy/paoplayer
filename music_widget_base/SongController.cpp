@@ -1,4 +1,6 @@
 #include "SongController.h"
+#include <algorithm>
+#include <iostream>
 
 namespace songs
 {
@@ -26,14 +28,16 @@ namespace songs
         if(!checkSongDir())
         {
             if(!m_quiet)
-                std::cout << "Could not create a directory at " << SONG_DIR << std::endl;
+                std::cout << "Could not create a directory at " << pm_pa_connector->getConfig()->song_dir << std::endl;
 
             return -1;
         }
+        
+        std::string command = getYtDlpCmd();
 
-        char *prepare_command = (char *) malloc(sizeof(YT_DLP_CMD) + m_current_url.size() * sizeof(char));
+        char *prepare_command = (char *) malloc(command.length() + m_current_url.size() * sizeof(char));
 
-        sprintf(prepare_command, YT_DLP_CMD, index_start, index_end, m_current_url.c_str());
+        sprintf(prepare_command, command.c_str(), index_start, index_end, m_current_url.c_str());
 
         if(m_verbose)
             std::cout << "Downloading with command \033[32m\n" << prepare_command << "\033[0m" <<  std::endl;
@@ -61,16 +65,17 @@ namespace songs
     bool SongController::checkSongDir()
     {
         struct stat dir_info{};
-        if(stat(SONG_DIR, &dir_info) != 0)
+        const char* song_dir = pm_pa_connector->getConfig()->song_dir.c_str();
+        if(stat(song_dir, &dir_info) != 0)
         {
             if(errno == ENOENT)
             {
-                if(mkdir(SONG_DIR, S_IRWXU | S_IRGRP | S_IWGRP) == 0)
+                if(mkdir(song_dir, S_IRWXU | S_IRGRP | S_IWGRP) == 0)
                     return true;
             }
 
             if(!m_quiet)
-                std::cout << "Cannot access " << SONG_DIR << " " << strerror(errno) << std::endl;
+                std::cout << "Cannot access " << song_dir << " " << strerror(errno) << std::endl;
 
             return false;
         }
@@ -161,8 +166,9 @@ namespace songs
         }
 
         std::string out = buff.gl_pathv[0];
+        std::string* song_dir = &pm_pa_connector->getConfig()->song_dir;
         
-        out.erase(0, strlen(SONG_DIR));
+        out.erase(0, song_dir->length());
         std::string suffix = "_index_" + std::to_string(m_song_index) + ".wav";
         out.erase(out.length() - suffix.length(), suffix.length());
 
@@ -174,14 +180,15 @@ namespace songs
 
     std::string SongController::makeSongPattern() const
     {
-        return std::string(SONG_DIR) + "*_index_" + std::to_string(m_song_index) + std::string(".wav");
+        return pm_pa_connector->getConfig()->song_dir + "*_index_" + std::to_string(m_song_index) + ".wav";
     }
 
     void SongController::removeExistingSongs(const int up_to)
     {
+        std::string song_dir = pm_pa_connector->getConfig()->song_dir;
         if(!m_quiet)
         {
-            std::cout << "Removing from " << SONG_DIR "*.wav";
+            std::cout << "Removing from " << song_dir << "*.wav";
             
             if(up_to > 0)
                 std::cout << " up to index " << std::to_string(up_to);
@@ -191,7 +198,7 @@ namespace songs
 
         glob_t buffer;
 
-        glob(SONG_DIR "*", 0, nullptr, &buffer);
+        glob((song_dir + "*").c_str(), 0, nullptr, &buffer);
 
         if(m_verbose && buffer.gl_pathc <= 0)
             std::cout << "Nothing to remove" << std::endl;
@@ -203,10 +210,8 @@ namespace songs
                 std::string firstStr = first;
                 std::string secondStr = second;
                 
-                
                 unsigned long first_start = firstStr.rfind('_');
                 unsigned long first_end = firstStr.rfind('.');
-
 
                 unsigned long second_start = secondStr.rfind('_');
                 unsigned long second_end = secondStr.rfind('.');
@@ -226,8 +231,6 @@ namespace songs
         {
             if(up_to > 0 && first_index == up_to)
                 break;
-            
-            std::cout << first_index << " " << up_to << std::endl;
             
             if(unlink(buffer.gl_pathv[i]) == -1 && !m_quiet) {
                 std::cout << strerror(errno) << std::endl;
@@ -251,5 +254,21 @@ namespace songs
     void SongController::enableQuiet()
     {
         m_quiet = true;
+    }
+
+    std::string SongController::getYtDlpCmd()
+    {
+        config::paop_config* config_instance = pm_pa_connector->getConfig();
+        std::string cmd = "yt-dlp -q -o "; 
+        cmd += config_instance->song_dir;
+        cmd += "\"%(title)s_index_%(playlist_index)s\"";
+
+        if(!config_instance->browser_cookies.empty()) {
+            cmd += " --cookies-from-browser " + config_instance->browser_cookies;
+        }
+
+        cmd += " -x --audio-format wav -I %d:%d %s";
+        
+        return cmd;
     }
 }
