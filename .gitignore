@@ -4,3 +4,5 @@ music_widget_cli/.idea
 music_widget_base/.idea
 music_widget_cli/compile_commands.json
 music_widget_cli/.cache
+.idea
+build.sh
