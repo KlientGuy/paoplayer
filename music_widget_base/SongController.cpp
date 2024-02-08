@@ -1,4 +1,7 @@
 #include "SongController.h"
+#include "paop_config.h"
+#include <thread>
+#include <locale>
 #include <algorithm>
 #include <iostream>
 
@@ -7,15 +10,29 @@ namespace songs
     SongController::SongController(pulse_audio::PaConnector *pa_connector)
     {
         pm_pa_connector = pa_connector;
-        pa_connector->setEndOfSongCallback([this] { next(); });
-
     }
 
     void SongController::setConfig()
     {
-        if(int size = pm_pa_connector->getConfig()->preload_size) {
+        config::paop_config* config_instance = pm_pa_connector->getConfig();
+        if(int size = config_instance->preload_size) {
             m_prefetch_count = size;
         }
+
+        pm_pa_connector->setEndOfSongCallback([this] { 
+            std::cout << "NEXT CALLBACK" << std::endl;
+            next(); 
+        });
+    }
+
+    void SongController::setSingleMode()
+    {
+        m_single_mode = true;
+
+        pm_pa_connector->setEndOfSongCallback([this] {
+            std::cout << "CLEANUP CALLBACK" << std::endl;
+            pm_pa_connector->cleanup();
+        });
     }
 
     void SongController::setPlaylistUrl(const std::string &url)
@@ -52,6 +69,35 @@ namespace songs
         	m_song_index = index_start - 1;
 		}
         m_max_index = index_end;
+
+        free(prepare_command);
+        return 0;
+    }
+
+    int SongController::fetchSingle()
+    {
+        if(!checkSongDir())
+        {
+            if(!m_quiet)
+                std::cout << "Could not create a directory at " << pm_pa_connector->getConfig()->song_dir << std::endl;
+
+            return -1;
+        }
+        
+        std::string command = getYtDlpCmd();
+
+        char *prepare_command = (char *) malloc(command.length() + m_current_url.length() * sizeof(char));
+
+        sprintf(prepare_command, command.c_str(), m_current_url.c_str());
+
+        if(m_verbose)
+            std::cout << "Downloading with command \033[32m\n" << prepare_command << "\033[0m" <<  std::endl;
+
+        if(system(prepare_command) == 256 && !m_quiet)
+        {
+            std::cout << "yt-dlp exited with error" << std::endl;
+            return -2;
+        }
 
         free(prepare_command);
         return 0;
@@ -259,16 +305,24 @@ namespace songs
     std::string SongController::getYtDlpCmd()
     {
         config::paop_config* config_instance = pm_pa_connector->getConfig();
-        std::string cmd = "yt-dlp -q -o "; 
+        std::string cmd = "yt-dlp -q -o ";
         cmd += config_instance->song_dir;
-        cmd += "\"%(title)s_index_%(playlist_index)s\"";
+
+        if(m_single_mode) {
+            cmd += "\"%(title)s_index_1\"";
+        }
+        else {
+            cmd += "\"%(title)s_index_%(playlist_index)s\"";
+            cmd += " -I %d:%d";
+        }
+
 
         if(!config_instance->browser_cookies.empty()) {
             cmd += " --cookies-from-browser " + config_instance->browser_cookies;
         }
 
-        cmd += " -x --audio-format wav -I %d:%d %s";
-        
+        cmd += " -x --audio-format wav %s";
+
         return cmd;
     }
 }

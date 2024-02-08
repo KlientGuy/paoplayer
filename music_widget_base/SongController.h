@@ -4,9 +4,6 @@
 #include <string>
 #include <sys/stat.h>
 #include <glob.h>
-#include <thread>
-#include <locale>
-#include <algorithm>
 
 #include "PaConnector.h"
 
@@ -23,6 +20,7 @@ namespace songs
         void enableQuiet();
         
         void setConfig();
+        void setSingleMode();
 
         void setPlaylistUrl(const std::string &url);
         
@@ -36,6 +34,7 @@ namespace songs
          */
         int fetchSongsFromPlaylist(uint8_t index_start, uint8_t index_end);
         void prefetchSongs();
+        int fetchSingle();
         
         /**
          * Skip to next track and if at the end of
@@ -61,6 +60,7 @@ namespace songs
 
         bool m_verbose = false;
         bool m_quiet = false;
+        bool m_single_mode = false;
 
         std::string m_current_url;
 

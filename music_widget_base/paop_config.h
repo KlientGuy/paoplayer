@@ -1,6 +1,8 @@
 #ifndef MUSIC_WIDGET_PAOP_CONFIG_H
 #define MUSIC_WIDGET_PAOP_CONFIG_H
 
+#include <string>
+
 namespace config {
     struct paop_config {
         std::string default_playlist_url;

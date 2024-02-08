@@ -33,6 +33,7 @@ void processArgv(const int argc, char *argv[])
         {"volume-up", no_argument, nullptr, 'u'},
         {"volume-down", no_argument, nullptr, 'd'},
         {"currently-playing", no_argument, nullptr, 'g'},
+        {"single", no_argument, nullptr, NOS_ONE_SONG},
         {nullptr, no_argument, nullptr, 0} //Segfaults on unrecognized option
     };
     
@@ -72,6 +73,9 @@ void processArgv(const int argc, char *argv[])
             case 'v': ops_mask |= OPS_VERBOSE;
                 break;
             case 'D': ops_mask |= OPS_DEBUG;
+                break;
+            case NOS_ONE_SONG:
+                ops_mask |= OPS_ONE_SONG;
                 break;
             case ':':
                 if(optopt == 'U')
@@ -145,19 +149,29 @@ void processArgv(const int argc, char *argv[])
 
     if((ops_mask & OPS_FROM_URL) == OPS_FROM_URL)
     {
-        int size = 1;
-
-        if(config_instance->preload_size) {
-            size = config_instance->preload_size;
-        }
-        
-        song_controller.fetchSongsFromPlaylist(1, size);
         online = true;
+
+        if((ops_mask & OPS_ONE_SONG) == OPS_ONE_SONG) {
+            song_controller.setSingleMode();
+            song_controller.fetchSingle();
+        }
+        else {
+            int size = 1;
+
+            if(config_instance->preload_size) {
+                size = config_instance->preload_size;
+            }
+            
+            song_controller.fetchSongsFromPlaylist(1, size);
+        }
     }
 }
 
 void sigsegvCleanup(int id)
 {
+    if(pa_connector.isDebug())
+        std::cout << strsignal(id) << " received, cleaning up..." << std::endl;
+
     pa_connector.removeSharedMemory();
     exit(1);
 }
@@ -186,9 +200,6 @@ int main(int argc, char *argv[])
     pa_connector.setConfig(config_instance);
     song_controller.setConfig();
     
-   // std::cout << config_instance->default_playlist_url << std::endl;
-
-   // exit(0);
     setupSignals();
 
     int err_code = 0;
