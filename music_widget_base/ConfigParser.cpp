@@ -80,7 +80,7 @@ namespace config {
             return "";
         }
 
-        if(line[line_index] == '#')
+        if(line[line_index + 1] == '#')
         {
             token_type = TOKEN_COMMENT;
             return "";

@@ -309,10 +309,10 @@ namespace songs
         cmd += config_instance->song_dir;
 
         if(m_single_mode) {
-            cmd += "\"%(title)s_index_1\"";
+            cmd += "\"%%(title)s_index_1\"";
         }
         else {
-            cmd += "\"%(title)s_index_%(playlist_index)s\"";
+            cmd += "\"%%(title)s_index_%%(playlist_index)s\"";
             cmd += " -I %d:%d";
         }
 
