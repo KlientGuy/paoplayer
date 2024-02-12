@@ -81,7 +81,6 @@ void processArgv(const int argc, char *argv[])
                 if(optopt == 'U')
                 {
                     printf("No arg passed to -U using URL from config\n");
-//                    std::cout << config_instance->default_playlist_url << std::endl;
                     song_controller.setPlaylistUrl(config_instance->default_playlist_url);
                     ops_mask |= OPS_FROM_URL;
                     break;

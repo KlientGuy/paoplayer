@@ -7,14 +7,10 @@ set(CMAKE_CXX23_EXTENSION_COMPILE_OPTION "-std=gnu++2b")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
 
 if(debug)
+    message("Compiling with debug true")
     add_compile_options(-fsanitize=address)
     add_link_options(-fsanitize=address)
 endif()
-
-# file(GLOB_RECURSE sources
-#     "${PROJECT_SOURCE_DIR}/../music_widget_base"
-#     "${PROJECT_SOURCE_DIR}/../music_widget_cli"
-#     )
 
 add_executable(music_widget main.cpp lib/OP_MASKS.h)
 
