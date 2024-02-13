@@ -38,6 +38,12 @@ Currently you can:
 
 ---
 
+### How to install
+Make sure you have [yt-dlp](https://github.com/yt-dlp/yt-dlp) installed, then
+just go to the releases page and download the latest binary
+
+---
+
 <a name="options"></a>
 ### Available options:
 
