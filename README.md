@@ -46,16 +46,14 @@ just go to the releases page and download the latest binary
 
 <a name="options"></a>
 ### Available options:
-
-<font size="4"> **Init:** </font>
----
+<font size="4"> **Init** </font>
 ```
     -U  --from-url <track or playlist URL>      Play from that URL
     -c  --clear-existing                        Clear a songs directory
     --single                                    Play a single song instead of a playlist.
                                                 You then have to pass video url to -U
 ```
-<font size="4"> **Track control:** </font>
+<font size="4"> **Track control** </font>
 ```
     -p  --pause                                 Pause currently playing track
     -P  --play                                  Resume current track
@@ -63,7 +61,7 @@ just go to the releases page and download the latest binary
     -u  --volume-up <float>                      Increase the volume by amount
     -d  --volume-down <float>                    Decrease the volume by amount
 ```
-<font size="4"> **Extra:** </font>
+<font size="4"> **Extra** </font>
 ```
     -g  --currently-playing                     Print currently playing track
 
