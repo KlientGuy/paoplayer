@@ -26,7 +26,7 @@ void processArgv(const int argc, char *argv[])
         {"pause", no_argument, nullptr, 'p'},
         {"quiet", no_argument, nullptr, 'q'},
         {"verbose", no_argument, nullptr, 'v'},
-        {"debug", no_argument, nullptr, 'd'},
+        {"debug", no_argument, nullptr, 'D'},
         {"from-url", no_argument, nullptr, 'U'},
         {"clear-existing", no_argument, nullptr, 'c'},
         {"next", no_argument, nullptr, 'n'},
