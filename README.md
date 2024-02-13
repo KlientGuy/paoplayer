@@ -128,7 +128,7 @@ ninja -C ./music_widget_cli/cmake-build-debug/
 ### Technical detail
 I've decided to use shared memory (or rather memory mapped file) to allow changing state by running another proccess of the app, so sometimes if things go really wrong that file is not removed by the program. If you run it once again and it exits immediately that probably means that it cleaned up that file and everything should be ok :)
 
-Don't ask about reasoning, I've just wanted to use that :stuck_out_tongue:
+Don't ask about reasoning, I just wanted to use that :stuck_out_tongue:
 
 ---
 
