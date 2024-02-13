@@ -2,29 +2,29 @@
 That's a stupid name I know
 
 ### Chapters
-[Introduction][introduction] \
-[Why did I write this][why] \
-[Should you use it][should] \
-[Available options][options] \
-[Configuration file][config] \
-[About contributing][contrib] \
-[Build it yourself][build] \
-[Technical detail][tech] \
-[Personal thoughts][personal]
+* [Introduction](#introduction)
+* [Why did I write this](#why)
+* [Should you use it](#should)
+* [Available options](#options)
+* [Configuration file](#config)
+* [About contributing](#contrib)
+* [Build it yourself](#build)
+* [Technical detail](#tech)
+* [Personal thoughts](#personal)
 
 ---
 
-[introduction]:
+<a name="introduction"></a>
 ### Introduction (what even is this)
 This is a simple music player written in c++ utilizing pulseaudio sinks as it's sound interface. \
 It makes use of [yt-dlp](https://github.com/yt-dlp/yt-dlp) (huge thanks to all the contributors :heart:, as that's what really allowed me to create this project) to heavy lift the "_online_" part.
 
-[why]:
+<a name="why"></a>
 ### Why did I write this?
 Because a firefox window that exists solely for the purpose of playing music is a bit overkill (yes I refused to use existing software, because how hard it is to write your own music player). \
 The other reason is that I wanted to explore c++ some more and also wondered how can you play sounds with it.
 
-[should]:
+<a name="should"></a>
 ### Should you use it
 I mean if you really want to then it's working.
 
@@ -38,7 +38,7 @@ Currently you can:
 
 ---
 
-[options]:
+<a name="options"></a>
 ### Available options:
 
 <font size="4"> **Init:** </font>
@@ -68,7 +68,7 @@ Currently you can:
 
 ---
 
-[config]:
+<a name="config"></a>
 ### There is also a small configuration file
 Your config path should be `~/.config/paoplayer/config`
 
@@ -94,7 +94,7 @@ Your config path should be `~/.config/paoplayer/config`
 
 ---
 
-[contrib]:
+<a name="contrib"></a>
 ### About contributing
 If you're bored enought that you want to contribute to this piece of software, issues and discussions are welcome, but I probably wont accept PR's.
 
@@ -104,7 +104,7 @@ As I said if you want to see a feature being added or a bug being fixed go ahead
 
 ---
 
-[build]:
+<a name="build"></a>
 ### Build it yourself
 I've used ninja because I didn't know any better and Clion does that by default (been moving to neovim lately)
 
@@ -118,7 +118,7 @@ ninja -C ./music_widget_cli/cmake-build-debug/
 
 ---
 
-[tech]:
+<a name="tech"></a>
 ### Technical detail
 I've decided to use shared memory (or rather memory mapped file) to allow changing state by running another proccess of the app, so sometimes if things go really wrong that file is not removed by the program. If you run it once again and it exits immediately that probably means that it cleaned up that file and everything should be ok :)
 
@@ -126,7 +126,7 @@ Don't ask about reasoning, I've just wanted to use that :stuck_out_tongue:
 
 ---
 
-[personal]:
+<a name="personal"></a>
 ### Personal thoughts
 I mainly use it for youtube (music) to play it's auto mix and I have that set as my default url. It works every time and I'm happy with its ~8 mb RAM usage so don't expect anything ultra performant.
 
