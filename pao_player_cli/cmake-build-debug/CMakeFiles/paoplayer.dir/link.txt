@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -fsanitize=address CMakeFiles/paoplayer.dir/main.cpp.o -o paoplayer  build/libpao_player_base.a -lpulse 

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmusic_widget_base.a CMakeFiles/music_widget_base.dir/PaConnector.cpp.o CMakeFiles/music_widget_base.dir/SongController.cpp.o CMakeFiles/music_widget_base.dir/ConfigParser.cpp.o
+/usr/bin/ranlib libmusic_widget_base.a

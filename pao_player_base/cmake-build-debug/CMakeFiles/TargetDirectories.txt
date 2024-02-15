@@ -1,0 +1,3 @@
+/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget_base/cmake-build-debug/CMakeFiles/music_widget_base.dir
+/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget_base/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget_base/cmake-build-debug/CMakeFiles/rebuild_cache.dir
