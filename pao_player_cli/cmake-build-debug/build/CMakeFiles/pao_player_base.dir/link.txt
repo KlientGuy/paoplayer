@@ -1,2 +1,0 @@
-/usr/bin/ar qc libpao_player_base.a CMakeFiles/pao_player_base.dir/PaConnector.cpp.o CMakeFiles/pao_player_base.dir/SongController.cpp.o CMakeFiles/pao_player_base.dir/ConfigParser.cpp.o
-/usr/bin/ranlib libpao_player_base.a

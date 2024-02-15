@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/paoplayer.dir/main.cpp.o -o paoplayer  build/libpao_player_base.a -lpulse 

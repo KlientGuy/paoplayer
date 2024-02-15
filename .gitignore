@@ -1,8 +1,8 @@
-music_widget_base/cmake-build-debug
-music_widget_cli/cmake-build-debug
-music_widget_cli/cmake-build-release
-music_widget_cli/.idea
-music_widget_base/.idea
-music_widget_cli/compile_commands.json
-music_widget_cli/.cache
+pao_player_base/cmake-build-debug
+pao_player_cli/cmake-build-debug
+pao_player_cli/cmake-build-release
+pao_player_cli/.idea
+pao_player_base/.idea
+pao_player_cli/compile_commands.json
+pao_player_cli/.cache
 .idea

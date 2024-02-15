@@ -1,6 +1,0 @@
-/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget/pao_player_cli/cmake-build-release/CMakeFiles/paoplayer.dir
-/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget/pao_player_cli/cmake-build-release/CMakeFiles/edit_cache.dir
-/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget/pao_player_cli/cmake-build-release/CMakeFiles/rebuild_cache.dir
-/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget/pao_player_cli/cmake-build-release/build/CMakeFiles/pao_player_base.dir
-/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget/pao_player_cli/cmake-build-release/build/CMakeFiles/edit_cache.dir
-/home/patryk/nigdy_nie_skonczone_projekty/c++/music_widget/pao_player_cli/cmake-build-release/build/CMakeFiles/rebuild_cache.dir

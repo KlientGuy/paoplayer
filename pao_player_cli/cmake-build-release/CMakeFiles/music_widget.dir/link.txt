@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/music_widget.dir/main.cpp.o -o music_widget  build/libmusic_widget_base.a -lpulse 
