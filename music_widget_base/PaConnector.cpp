@@ -1,4 +1,13 @@
 #include "PaConnector.h"
+#include <iostream>
+#include <cstring>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <functional>
+#include <pulse/error.h>
+#include <pulse/volume.h>
+#include <pulse/introspect.h>
+#include <pulse/subscribe.h>
 
 namespace pulse_audio
 {

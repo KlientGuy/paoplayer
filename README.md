@@ -112,12 +112,9 @@ As I said if you want to see a feature being added or a bug being fixed go ahead
 ### Build it yourself
 I've used ninja because I didn't know any better and Clion does that by default (been moving to neovim lately)
 
-Run these commands in the root of the project
+Run the supplied build script in the root of the project
 ```
-cmake -S ./music_widget_cli -B ./music_widget_cli/cmake-build-debug/ -Ddebug=false`
-```
-```
-ninja -C ./music_widget_cli/cmake-build-debug/
+./build.sh <release|debug>
 ```
 
 ---

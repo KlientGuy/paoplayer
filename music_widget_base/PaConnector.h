@@ -1,20 +1,10 @@
 #ifndef PULSE_AUDIO_H
 #define PULSE_AUDIO_H
 
-#include <iostream>
-#include <cstring>
-#include <sys/mman.h>
-#include <fcntl.h>
 #include <functional>
-#include <filesystem>
-
-#include <pulse/mainloop.h>
 #include <pulse/context.h>
+#include <pulse/mainloop.h>
 #include <pulse/stream.h>
-#include <pulse/error.h>
-#include <pulse/volume.h>
-#include <pulse/introspect.h>
-#include <pulse/subscribe.h>
 
 #include "MusicStateEnum.h"
 #include "paop_config.h"

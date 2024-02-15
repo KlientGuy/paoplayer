@@ -1,14 +1,7 @@
 #ifndef SONGCONTROLLER_H
 #define SONGCONTROLLER_H
-#include <cstdint>
-#include <string>
-#include <sys/stat.h>
-#include <glob.h>
 
 #include "PaConnector.h"
-
-#define SONG_DIR "/tmp/music_widget/"
-#define YT_DLP_CMD ("yt-dlp -q -o \"" SONG_DIR "%(title)s_index_%(playlist_index)s\" --cookies-from-browser firefox -x --audio-format wav -I %d:%d %s")
 
 namespace songs
 {

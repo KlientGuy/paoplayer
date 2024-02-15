@@ -3,6 +3,7 @@
 #include <signal.h>
 
 #include "SongController.h"
+#include "error.h"
 #include "lib/OP_MASKS.h"
 #include "ConfigParser.h"
 

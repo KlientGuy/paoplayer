@@ -1,9 +1,13 @@
 #include "SongController.h"
 #include "paop_config.h"
+#include <codecvt>
+#include <cstring>
 #include <thread>
 #include <locale>
 #include <algorithm>
 #include <iostream>
+#include <sys/stat.h>
+#include <glob.h>
 
 namespace songs
 {
@@ -271,6 +275,10 @@ namespace songs
                 
                 return index1 < index2;
             });
+        }
+
+        if(m_verbose) {
+            std::cout << "first index to remove: " << first_index << std::endl;
         }
 
         for(int i = 0; i < buffer.gl_pathc; i++)
