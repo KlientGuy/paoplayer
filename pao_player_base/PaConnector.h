@@ -10,7 +10,7 @@
 #include "paop_config.h"
 
 #define SHM_PAGE_SIZE 4096
-#define SHM_NAME "/music_widget"
+#define SHM_NAME "/paoplayer"
 
 #define WAV_HEADER_SIZE 44
 
@@ -35,6 +35,8 @@ namespace pulse_audio
         void enableDebug();
         void disableDebug();
         bool isDebug() const;
+        void startPaused();
+        bool startedPaused();
 
         /**
          * \brief Initializes main loop of pulse audio
@@ -138,6 +140,7 @@ namespace pulse_audio
     private:
         bool m_debug = false;
         inline static PaConnector *pm_instance = nullptr;
+        bool m_start_paused = false;
 
         FILE *pm_current_song = nullptr;
         size_t m_current_song_byte_count = 0;

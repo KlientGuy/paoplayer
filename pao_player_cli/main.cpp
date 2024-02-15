@@ -1,3 +1,4 @@
+#include <bitset>
 #include <iostream>
 #include <getopt.h>
 #include <signal.h>
@@ -21,7 +22,7 @@ bool online = false;
 void processArgv(const int argc, char *argv[])
 {
     int optCode;
-    const char *shortOptions = ":PptqvD ?U: :cn ?u: ?d: -g";
+    const char *shortOptions = ":PptqvDsg ?U: :cn ?u: ?d:";
     const option longOptions[] = {
         {"play", no_argument, nullptr, 'P'},
         {"pause", no_argument, nullptr, 'p'},
@@ -35,6 +36,7 @@ void processArgv(const int argc, char *argv[])
         {"volume-down", no_argument, nullptr, 'd'},
         {"currently-playing", no_argument, nullptr, 'g'},
         {"single", no_argument, nullptr, NOS_ONE_SONG},
+        {"start-paused", no_argument, nullptr, 's'},
         {nullptr, no_argument, nullptr, 0} //Segfaults on unrecognized option
     };
     
@@ -74,6 +76,9 @@ void processArgv(const int argc, char *argv[])
             case 'v': ops_mask |= OPS_VERBOSE;
                 break;
             case 'D': ops_mask |= OPS_DEBUG;
+                break;
+            case 's':
+                pa_connector.startPaused();
                 break;
             case NOS_ONE_SONG:
                 ops_mask |= OPS_ONE_SONG;

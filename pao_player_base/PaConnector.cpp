@@ -1,6 +1,7 @@
 #include "PaConnector.h"
 #include <iostream>
 #include <cstring>
+#include <pulse/stream.h>
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <functional>
@@ -19,28 +20,30 @@ namespace pulse_audio
 
     PaConnector *PaConnector::getInstance() { return pm_instance; }
 
-    void PaConnector::enableDebug() { this->m_debug = true; }
-    void PaConnector::disableDebug() { this->m_debug = false; }
-    bool PaConnector::isDebug() const { return this->m_debug; }
+    void PaConnector::enableDebug() { m_debug = true; }
+    void PaConnector::disableDebug() { m_debug = false; }
+    bool PaConnector::isDebug() const { return m_debug; }
+    void PaConnector::startPaused() { m_start_paused = true; }
+    bool PaConnector::startedPaused() { return m_start_paused; }
 
     void PaConnector::initMainloop()
     {
-        this->pm_main_loop = pa_mainloop_new();
-        this->pm_main_loop_api = pa_mainloop_get_api(this->pm_main_loop);
-        this->pm_shared->host_pid = getpid();
+        pm_main_loop = pa_mainloop_new();
+        pm_main_loop_api = pa_mainloop_get_api(pm_main_loop);
+        pm_shared->host_pid = getpid();
     }
 
     void PaConnector::freeMainloop() const
     {
-        pa_mainloop_free(this->pm_main_loop);
+        pa_mainloop_free(pm_main_loop);
     }
 
     bool PaConnector::createContext(const char *context_name)
     {
-        this->pm_context = pa_context_new(this->pm_main_loop_api, context_name);
+        pm_context = pa_context_new(pm_main_loop_api, context_name);
 
-        pa_context_set_state_callback(this->pm_context, context_set_state_callback, nullptr);
-        if(pa_context_connect(this->pm_context, nullptr, PA_CONTEXT_NOFLAGS, nullptr) < 0)
+        pa_context_set_state_callback(pm_context, context_set_state_callback, nullptr);
+        if(pa_context_connect(pm_context, nullptr, PA_CONTEXT_NOFLAGS, nullptr) < 0)
             return false;
 
         return true;
@@ -130,7 +133,7 @@ namespace pulse_audio
 
     bool PaConnector::createSharedMemory()
     {
-        m_shm_fd = shm_open(SHM_NAME, O_EXCL | O_CREAT | O_RDWR, 0600);
+        m_shm_fd = shm_open(SHM_NAME, O_EXCL | O_CREAT | O_RDWR, 0660);
 
         if(m_shm_fd == -1)
         {
@@ -155,7 +158,7 @@ namespace pulse_audio
 
     bool PaConnector::attachSharedMemory()
     {
-        m_shm_fd = shm_open(SHM_NAME, O_RDWR, 0600);
+        m_shm_fd = shm_open(SHM_NAME, O_RDWR, 0660);
 
         if(m_shm_fd == -1)
         {
@@ -471,7 +474,7 @@ namespace pulse_audio
 
         if(paConnector->isDebug())
         {
-            std::cout << bytesCount << " : FREE Bytes" << std::endl;
+            // std::cout << bytesCount << " : FREE Bytes" << std::endl;
             // std::cout << bytes << " : BYTES READ" << std::endl;
         }
 
@@ -516,6 +519,9 @@ namespace pulse_audio
                 pa_context_get_sink_input_info((pa_context*)context, pa_stream_get_index(stream), getDefaultVolume, (void*)paConnector);
                 std::cout << pa_strerror(pa_context_errno((pa_context*)context)) << std::endl;
                 pa_stream_set_write_callback(stream, stream_write_callback, nullptr);
+                if(paConnector->startedPaused()) {
+                    pa_stream_cork(stream, 1, nullptr, nullptr);
+                }
                 break;
             case PA_STREAM_FAILED:
                 printf("PA_STREAM_FAILED\n");
@@ -536,6 +542,9 @@ namespace pulse_audio
                 {
                     pa_operation* operation;
                     pa_stream_set_write_callback(stream, stream_write_callback, nullptr);
+                    if(paConnector->startedPaused()) {
+                        pa_stream_cork(stream, 1, nullptr, nullptr);
+                    }
                     operation = pa_context_get_sink_input_info((pa_context*) context, pa_stream_get_index(stream), getDefaultVolume, (void*) paConnector);
                     paConnector->paUnref(operation);
                 }
