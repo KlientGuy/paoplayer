@@ -58,8 +58,8 @@ just go to the releases page and download the latest binary
     -p  --pause                                 Pause currently playing track
     -P  --play                                  Resume current track
     -n  --next                                  Next track
-    -u  --volume-up <float>                      Increase the volume by amount
-    -d  --volume-down <float>                    Decrease the volume by amount
+    -u  --volume-up <float>                     Increase the volume by amount
+    -d  --volume-down <float>                   Decrease the volume by amount
 ```
 <font size="4"> **Extra** </font>
 ```
