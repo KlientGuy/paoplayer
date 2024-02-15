@@ -24,7 +24,6 @@ namespace songs
         }
 
         pm_pa_connector->setEndOfSongCallback([this] { 
-            std::cout << "NEXT CALLBACK" << std::endl;
             next(); 
         });
     }
@@ -34,7 +33,6 @@ namespace songs
         m_single_mode = true;
 
         pm_pa_connector->setEndOfSongCallback([this] {
-            std::cout << "CLEANUP CALLBACK" << std::endl;
             pm_pa_connector->cleanup();
         });
     }
