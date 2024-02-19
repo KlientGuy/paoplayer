@@ -8,6 +8,27 @@
 #include "lib/OP_MASKS.h"
 #include "ConfigParser.h"
 
+#define HELP_MESSAGE ("\
+Usage: paoplayer [OPTION]... [FILE?]...\n\
+Play some music either form url (includes playlists) or localy\n\
+\n\
+  -U  --from-url <track or playlist URL>      Play from that URL\n\
+  -c  --clear-existing                        Clear a songs directory\n\
+  --single                                    Play a single song instead of a playlist.\n\
+                                              You then have to pass video url to -U\n\
+  -p  --pause                                 Pause currently playing track\n\
+  -P  --play                                  Resume current track\n\
+  -n  --next                                  Next track\n\
+  -u  --volume-up <float>                     Increase the volume by amount\n\
+  -d  --volume-down <float>                   Decrease the volume by amount\n\
+  \n\
+  -g  --currently-playing                     Print currently playing track\n\
+  \n\
+  -q  --quiet                                 Supress most output\n\
+  -v  --verbose                               Extra output\n\
+  -D  --debug                                 Debug mode\
+")
+
 #define MILISECOND 1000
 
 int ops_mask = OPS_MASK;
@@ -22,7 +43,7 @@ bool online = false;
 void processArgv(const int argc, char *argv[])
 {
     int optCode;
-    const char *shortOptions = ":PptqvDsg ?U: :cn ?u: ?d:";
+    const char *shortOptions = ":PptqvDsgh ?U: :cn ?u: ?d:";
     const option longOptions[] = {
         {"play", no_argument, nullptr, 'P'},
         {"pause", no_argument, nullptr, 'p'},
@@ -37,6 +58,7 @@ void processArgv(const int argc, char *argv[])
         {"currently-playing", no_argument, nullptr, 'g'},
         {"single", no_argument, nullptr, NOS_ONE_SONG},
         {"start-paused", no_argument, nullptr, 's'},
+        {"help", no_argument, nullptr, 'h'},
         {nullptr, no_argument, nullptr, 0} //Segfaults on unrecognized option
     };
     
@@ -46,6 +68,9 @@ void processArgv(const int argc, char *argv[])
     {
         switch(optCode)
         {
+            case 'h':
+                std::cout << HELP_MESSAGE << std::endl;
+                exit(0);
             case 'P': ops_mask |= OPS_PLAY;
                 break;
             case 'p': ops_mask |= OPS_PAUSE;

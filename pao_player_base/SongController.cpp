@@ -166,7 +166,6 @@ namespace songs
         }
         
         playing = convert.to_bytes(convert_string);
-        std::cout << playing << std::endl;
 
         pm_pa_connector->setCurrentlyPlaying(&playing);
         
